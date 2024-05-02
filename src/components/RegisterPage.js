@@ -19,6 +19,7 @@ export default function RegisterPage() {
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
+  
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };

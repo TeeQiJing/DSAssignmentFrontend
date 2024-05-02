@@ -1,0 +1,245 @@
+.pg1-wrapper{
+    width: 900px;
+    height: 700px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(50px);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, .2);
+    color:#fff;
+    border-radius: 10px;
+    padding: 30px 40px;
+   
+    
+    
+
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+    transform: translateX(28px);
+    color: white;
+}
+.pg1-wrapper h1 {
+    font-size: 32px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.pg1-wrapper .input-box1 {
+    position: relative;
+    width: 70%;
+    height: 50px;
+    
+    margin: 0px 30px;
+    display: flex;
+    justify-content: left;
+}
+.pg1-wrapper .country {
+    margin: 0px 30px 20px;
+    padding: 0;
+    width: 35%;
+    height: 50%;
+    background: transparent;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 40px;
+    font-size: 16px;
+    color: white;
+}
+
+.pg1-wrapper .selectt {
+    background-color: transparent;
+    border: none; /* Remove border */
+    outline: none; /* Remove outline */
+}
+
+
+.pg1-wrapper .input-box1 input {
+    width: 50%;
+    height: 50%;
+    background: transparent;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 40px;
+    font-size: 16px;
+    color: white;
+    padding: 20px 45px 20px 20px;
+    
+    
+}
+
+.pg1-wrapper .input-box1 input::placeholder{
+    color: whitesmoke;
+}
+.pg1-wrapper .stepper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.pg1-wrapper .line {
+    position: absolute;
+    top: 42%;
+    left: 18%;
+    height: 2px;
+    width: 65%;
+    background-color: #ddd;
+    z-index: -1; /* Ensure the line is behind circles */
+}
+
+.pg1-wrapper .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative; /* Ensure circle and text are positioned relative to step */
+    margin: 20px auto; /* Adjust as needed */
+}
+
+.pg1-wrapper .circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #ddd;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    margin: 30px;
+    
+    
+}
+
+.pg1-wrapper .step p {
+    margin: 0;
+}
+
+.pg1-wrapper .first-circle>.circle {
+    background-color: red;
+}
+
+.pg1-wrapper .form-content {
+    width: 50%;
+    margin-right: 20px;
+}
+.avatar-box {
+ 
+    display: flex;
+    justify-content: flex-end ;
+    align-items: center;
+    margin-left: auto;
+}
+
+.user-avatar {
+    position: absolute;
+    top: 40%;
+    right: 18%;
+    width: 200px; /* Adjust as needed */
+    height: 100px; /* Adjust as needed */
+
+
+}
+
+.avatar-wrapper {
+    width: 200px; /* Adjust as needed */
+    height: 200px; /* Adjust as needed */
+    overflow: hidden;
+   
+    border-radius: 50%; /* or any desired border-radius */
+    margin-right: 10px;
+  
+   
+}
+
+.avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-label {
+    cursor: pointer;
+    background-color: grey;
+    padding: 10px 20px;
+    border-radius: 10px;
+    position: absolute;
+    top: 220px;
+    right: 20px ;
+
+}
+.avatar-label:hover{
+    background-color: rgb(69, 54, 54);
+
+}
+
+
+#avatar-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: -1;
+}
+.pg1-wrapper .nextBtn1 {
+    font-size: 14.5px;
+    color: white;
+    background-color: grey;
+    border: none;
+    border-radius: 10px;
+    position: absolute;
+    top: 600px;
+    right:70px ;
+    width: 10%;
+    height: 5%
+}
+.nextBtn1:hover{
+    background-color: rgb(69, 54, 54);
+
+
+}
+
+.pg1-wrapper .Login-link {
+    font-size: 14.5px;
+    text-align: center;
+    
+    
+      
+}
+
+.pg1-wrapper .Login-link p a {
+    
+    /* text-decoration: none; */
+    font-weight: 600;
+}
+.pg1-wrapper .Login-link p {
+    margin-left: 70px;
+    margin-top: 22px;
+    
+}
+.pg1-wrapper .a:hover {
+    text-decoration: underline;
+    color: rgb(228, 143, 104);
+    
+}
+.pg1-wrapper .a {
+    color:orangered;
+    padding-left: 5px;
+  }
+
+
+.pg1-wrapper .input-box1 h3 {
+    font-size: 16px;
+    margin: 0px 20px;
+    color: rgb(255, 255, 255);
+    
+    
+}
+.css-b62m3t-container{
+    margin: 0px 10px;
+
+}
+.pg1-wrapper .pp {
+    padding: 0 30px;
+
+}
