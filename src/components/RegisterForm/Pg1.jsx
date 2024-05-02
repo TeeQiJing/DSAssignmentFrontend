@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import "./Pg1.css";
-import { FaRegUserCircle } from "react-icons/fa";
+import { Link } from "react-router-dom";
+
 
 const Pg1 = () => {
   const steps = ["Personal Details", "Acccount Details", "Card Details"];
@@ -161,7 +162,7 @@ const Pg1 = () => {
 
         <div className="Login-link">
           <p>
-            Already have an account? <a href="#"> Login</a>
+            Already have an account? <Link className="link" to="/login">Login</Link>
           </p>
         </div>
       </form>

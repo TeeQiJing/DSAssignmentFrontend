@@ -1,3 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+
+body {
+  
+  font-family: "Poppins", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background:  url('../Assets/bankLarge.jpg') 
+  no-repeat;
+  background-size: cover;
+  background-position: center bottom;
+
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
 .pg2-wrapper{
     width: 900px;
     height: 700px;
@@ -6,6 +35,8 @@
     backdrop-filter: blur(50px);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, .2);
     color:#fff;
+    margin: auto auto;
+    margin-top: 50px;
     border-radius: 10px;
     padding: 30px 40px;
 }

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Select from "react-select";
+
 import "./Pg2.css";
 import { GiGoblinHead } from "react-icons/gi";
-import { FaRegUserCircle } from "react-icons/fa";
+
 
 const Pg2 = () => {
   const steps = ["Personal Details", "Acccount Details", "Card Details"];

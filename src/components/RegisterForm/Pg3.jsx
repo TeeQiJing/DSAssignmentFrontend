@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import "./Pg3.css";
 
-import { FaRegUserCircle } from "react-icons/fa";
+
 
 const Pg3 = () => {
   const steps = ["Personal Details", "Acccount Details", "Card Details"];
