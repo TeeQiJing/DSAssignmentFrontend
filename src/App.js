@@ -1,5 +1,5 @@
 import { ColorModeContext, useMode } from "./theme";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { Container, CssBaseline, ThemeProvider } from "@mui/material";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import { Routes, Route } from "react-router-dom";
@@ -14,18 +14,29 @@ import Dashboard from "./scenes/dashboard";
 // import FAQ from "./scenes/faq";
 // import Geography from "./scenes/geography";
 // import Calendar from "./scenes/calendar"
+
+import LoginForm from './components/LoginForm/LoginForm';
+import Pg1 from './components/RegisterForm/Pg1';
+import Pg2 from './components/RegisterForm/Pg2';
+import Pg3 from './components/RegisterForm/Pg3';
+
 function App() {
   const [theme, colorMode] = useMode();
 
   return (
+
+
+    
+ 
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <div className="app">
+        <div className="app" style={{backgroundImage: "none"}}>
           <Sidebar/>
           <main className="content">
             <Topbar/>
             <Routes>
+              
               <Route path="/dashboard" element={<Dashboard/>}/>
               {/* <Route path="/team" element={<Team/>}/> */}
               {/* <Route path="/contacts" element={<Contacts/>}/> */}
@@ -43,6 +54,7 @@ function App() {
         </div>
       </ThemeProvider>
     </ColorModeContext.Provider>
+
   );
 }
 

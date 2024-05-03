@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+
+body {
+  
+  font-family: "Poppins", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background:  url('../Assets/bankLarge.jpg') 
+  no-repeat;
+  background-size: cover;
+  background-position: center bottom;
+
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.pg3-wrapper{
+    width: 900px;
+    height: 700px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .2);
+    margin: auto auto;
+    margin-top: 50px;
+    backdrop-filter: blur(50px);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, .2);
+    color:#fff;
+    border-radius: 10px;
+    padding: 30px 40px;
+}
+
+.pg3-wrapper h1 {
+    font-size: 32px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.pg3-wrapper .input-box3 {
+    position: relative;
+    width: 70%;
+    height: 50px;
+    margin: 0px 30px;
+    display: flex;
+    justify-content: left;
+}
+.pg3-wrapper .input-box3CVV {
+    position: relative;
+    width: 70%;
+    height: 50px;
+    margin-left: 470px;
+    display: flex;
+    justify-content: left;
+    transform: translateY(-180px);
+}
+
+.pg3-wrapper .input-box3CVV input {
+    width: 50%;
+    height: 50%;
+    background: transparent;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 40px;
+    font-size: 16px;
+    color: white;
+    padding: 20px 45px 20px 20px;
+}
+
+.pg3-wrapper .input-box3CVV input::placeholder{
+    color: whitesmoke;
+}
+
+.pg3-wrapper .input-box3ED {
+    position: relative;
+    width: 70%;
+    height: 50px;
+    margin-left: 470px;
+    display: flex;
+    justify-content: left;
+    transform: translateY(-160px);
+}
+
+.pg3-wrapper .input-box3ED input {
+    width: 50%;
+    height: 50%;
+    background: transparent;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 40px;
+    font-size: 16px;
+    color: white;
+    padding: 20px 45px 20px 20px;
+}
+
+.pg3-wrapper .input-box3ED input::placeholder{
+    color: whitesmoke;
+}
+.pg3-wrapper .ppCVV {
+    padding-left: 480px;
+    transform: translateY(-187px);
+
+}
+.pg3-wrapper .ppED {
+    padding-left: 480px;
+    transform: translateY(-165px);
+
+}
+
+.pg3-wrapper .input-box3 input {
+    width: 50%;
+    height: 50%;
+    background: transparent;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 40px;
+    font-size: 16px;
+    color: white;
+    padding: 20px 45px 20px 20px;
+    
+    
+}
+
+.pg3-wrapper .input-box3 input::placeholder{
+    color: whitesmoke;
+}
+.pg3-wrapper .stepper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.pg3-wrapper .line {
+    position: absolute;
+    top: 42%;
+    left: 18%;
+    height: 2px;
+    width: 65%;
+    background-color: #ddd;
+    z-index: -1; /* Ensure the line is behind circles */
+}
+
+.pg3-wrapper .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative; /* Ensure circle and text are positioned relative to step */
+    margin: 20px auto; /* Adjust as needed */
+}
+
+.pg3-wrapper .circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #ddd;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    margin: 30px;
+    
+    
+}
+
+.pg3-wrapper .step p {
+    margin: 0;
+}
+
+
+.pg3-wrapper .form-content {
+    width: 50%;
+    margin-right: 20px;
+}
+.pg3-wrapper .PrevBtn {
+    font-size: 14.5px;
+    color: white;
+    background-color: grey;
+    border: none;
+    border-radius: 10px;
+    position: absolute;
+    top: 600px;
+    left:100px ;
+    width: 10%;
+    height: 5%
+}
+.pg3-wrapper .PrevBtn:hover{
+    background-color: rgb(69, 54, 54);
+
+
+}
+
+.pg3-wrapper .FinishBtn {
+    font-size: 14.5px;
+    color: white;
+    background-color: rgb(212, 122, 48);
+    border: none;
+    border-radius: 10px;
+    position: absolute;
+    top: 600px;
+    right:100px ;
+    width: 10%;
+    height: 5%
+}
+.pg3-wrapper .FinishBtn:hover{
+    background-color: rgb(136, 80, 7);
+}
+
+.pg3-wrapper .pp3 {
+    padding: 10px 30px;
+
+}
+
+.pg3-wrapper .first-circle>.circle {
+    background-color: green;
+}
+.pg3-wrapper .normal-circle>.circle {
+    background-color: green;
+}
+.pg3-wrapper .last-circle>.circle {
+    background-color: red;
+}
+.pg3-wrapper .card {
+    margin: 0px 30px 20px;
+    padding: 0;
+    width: 35%;
+    height: 50%;
+    background: transparent;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 40px;
+    font-size: 16px;
+    color: white;
+}
+
+.pg3-wrapper .selecttt {
+    background-color: transparent;
+    border: none; /* Remove border */
+    outline: none; /* Remove outline */
+}
