@@ -12,8 +12,7 @@ import FileUploadComponent from "./components/FileUploadComponent";
 import Parent from "./components/RegisterForm/Parent";
 import { FileDataProvider } from "./FileDataContext";
 import GetImg from "./GetImg";
-import Pg2 from "./components/RegisterForm/Pg2";
-import Pg3 from "./components/RegisterForm/Pg3";
+
 import { Login } from "@mui/icons-material";
 
 

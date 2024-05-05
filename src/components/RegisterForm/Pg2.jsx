@@ -176,7 +176,7 @@ const Pg2 = ({ accountData = {}, setAccountData }) => {
       </form>
     </div>
 
-    </div>
+ 
     
   );
 };
