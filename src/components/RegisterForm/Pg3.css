@@ -23,20 +23,20 @@
 
 .pg3-wrapper .input-box3 {
     position: relative;
-    width: 70%;
+    width: 80%;
     height: 50px;
-    margin: 0px 30px;
+    margin: 10px 30px;
     display: flex;
     justify-content: left;
 }
 .pg3-wrapper .input-box3CVV {
     position: relative;
-    width: 70%;
+    width: 80%;
     height: 50px;
     margin-left: 470px;
     display: flex;
     justify-content: left;
-    transform: translateY(-180px);
+    transform: translateY(-175px);
 }
 
 .pg3-wrapper .input-box3CVV input {
@@ -57,12 +57,12 @@
 
 .pg3-wrapper .input-box3ED {
     position: relative;
-    width: 70%;
+    width: 80%;
     height: 50px;
     margin-left: 470px;
     display: flex;
     justify-content: left;
-    transform: translateY(-160px);
+    transform: translateY(-155px);
 }
 
 .pg3-wrapper .input-box3ED input {
@@ -163,7 +163,7 @@
     border-radius: 10px;
     position: absolute;
     top: 600px;
-    left:100px ;
+    left:70px ;
     width: 10%;
     height: 5%
 }
@@ -174,14 +174,15 @@
 }
 
 .pg3-wrapper .FinishBtn {
+
+    background-color: rgb(212, 122, 48);
     font-size: 14.5px;
     color: white;
-    background-color: rgb(212, 122, 48);
     border: none;
     border-radius: 10px;
     position: absolute;
     top: 600px;
-    right:100px ;
+    right:70px ;
     width: 10%;
     height: 5%
 }
@@ -206,13 +207,13 @@
 .pg3-wrapper .card {
     margin: 0px 30px 20px;
     padding: 0;
-    width: 35%;
-    height: 50%;
+    width: 40%;
+    height: 55%;
     background: transparent;
     outline: none;
     border: 2px solid rgba(255, 255, 255, .2);
     border-radius: 40px;
-    font-size: 16px;
+    font-size: 17.5px;
     color: white;
 }
 
