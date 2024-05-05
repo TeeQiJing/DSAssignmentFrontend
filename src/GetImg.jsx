@@ -11,7 +11,7 @@ const GetImg = () => {
   useEffect(() => {
     const fetchImage = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/687989`);
+        const response = await axios.get(`http://localhost:8080/12345`);
         const imageData = response.data;
 
         // Assuming imageData is a base64 encoded string
