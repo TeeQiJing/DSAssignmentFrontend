@@ -4,6 +4,7 @@ import Header from "../../components/Header";
 import "./Transaction.css";
 import AddContact from "./AddContact"; // Import the AddContact component
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Transaction = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -24,10 +25,27 @@ const Transaction = () => {
     // Add more recent searches here...
   ];
 
-  const existsInDatabase = (value) => {
+  const existsInDatabase = async (value) => {
     // // Simulated database check
     // const database = recentSearches.concat([.../* Other database data */]);
     // return database.some(user => Object.values(user).includes(value));
+
+    try {
+        const response = await axios.get(`http://localhost:8080/ContactList/${accountNumber}`, JSON.stringify(accountPayload), {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        console.log(response.data); // Handle response if needed
+      } catch (error) {
+        alert('Account Registered Failed! The Account Number, Card Number, Email, Contact Number and Username must be Unique!' );
+        // navigate("/login");
+        return;
+      }
+
+
+
+
   };
 
   const handleSearch = () => {

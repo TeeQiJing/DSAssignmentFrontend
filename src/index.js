@@ -14,11 +14,13 @@ import { FileDataProvider } from "./FileDataContext";
 import GetImg from "./GetImg";
 
 import { Login } from "@mui/icons-material";
+import { SessionProvider } from "./SessionContext";
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
+    <SessionProvider>
     <FileDataProvider>
     <BrowserRouter>
 
@@ -36,6 +38,7 @@ root.render(
     </BrowserRouter>
 
     </FileDataProvider>
+    </SessionProvider>
   </React.StrictMode>
 
 );
