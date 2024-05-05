@@ -32,11 +32,11 @@ code {
     height: 700px;
     background: transparent;
     border: 2px solid rgba(255, 255, 255, .2);
+    margin: auto auto;
+    margin-top: 50px;
     backdrop-filter: blur(50px);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, .2);
     color:#fff;
-    margin: auto auto;
-    margin-top: 50px;
     border-radius: 10px;
     padding: 30px 40px;
 }
@@ -58,13 +58,73 @@ code {
 
 .pg2-wrapper .input-box2 {
     position: relative;
-    width: 70%;
+    width: 80%;
     height: 50px;
-    margin: 0px 30px;
+    margin: 10px 30px;
     display: flex;
     justify-content: left;
 }
+.avatar-box {
+ 
+    display: flex;
+    justify-content: flex-end ;
+    align-items: center;
+    margin-left: auto;
+}
 
+.user-avatar {
+    position: absolute;
+    top: 40%;
+    right: 18%;
+    width: 200px; /* Adjust as needed */
+    height: 100px; /* Adjust as needed */
+
+
+}
+
+.avatar-wrapper {
+    width: 200px; /* Adjust as needed */
+    height: 200px; /* Adjust as needed */
+    overflow: hidden;
+   
+    border-radius: 50%; /* or any desired border-radius */
+    margin-right: 10px;
+  
+   
+}
+
+.avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-label {
+    cursor: pointer;
+    background-color: grey;
+    padding: 10px 20px;
+    border-radius: 10px;
+    position: absolute;
+    top: 220px;
+    right: 27px ;
+
+}
+.avatar-label:hover{
+    background-color: rgb(69, 54, 54);
+
+}
+
+
+#avatar-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: -1;
+}
 .pg2-wrapper .input-box2 input {
     width: 50%;
     height: 50%;
@@ -128,12 +188,7 @@ code {
 
 
 
-.pg2-wrapper .Goblin{
-    margin-left: 500px;
-    transform: translateY(-270px);
-    color: white;
-    font-size: 240px;
-}
+
 .pg2-wrapper .form-content {
     width: 50%;
     margin-right: 20px;
@@ -146,7 +201,7 @@ code {
     border-radius: 10px;
     position: absolute;
     top: 600px;
-    left:100px ;
+    left:70px ;
     width: 10%;
     height: 5%
 }
@@ -164,7 +219,7 @@ code {
     border-radius: 10px;
     position: absolute;
     top: 600px;
-    right:30px ;
+    right:70px ;
     width: 10%;
     height: 5%
 }
