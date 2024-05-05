@@ -1,0 +1,90 @@
+.searchContainer {
+    display: flex;
+    align-items: center;
+    
+    
+    
+}
+
+.searchButton {
+    margin-left: 10px;
+}
+.MuiInputBase-root {
+    margin-right: 20px;
+    max-width: 350px ;
+
+}
+/* Container holding the user boxes */
+.userBoxContainer {
+    max-height: 520px; /* Adjust height as needed */
+    overflow-y: auto;
+     /* Enable vertical scrolling */
+}
+
+/* Define styles for all user boxes */
+.userBox {
+    /* Common styles for all user boxes */
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    background-color: rgba(7, 51, 99, 0.8);
+    max-height: 150px;
+}
+
+/* Define styles for user boxes with even index */
+.userBox:nth-child(even) {
+    background-color: rgba(7, 51, 99, 0.6);
+}
+
+/* Define styles for user boxes with odd index */
+.userBox:nth-child(odd) {
+    background-color: rgba(7, 51, 99, 0.4); /* Background color with transparency */
+
+
+}
+.userInfo {
+    /* Common styles for user information */
+  }
+  
+  .userName {
+    font-size: 24px;
+    margin-left: 170px;
+    transform: translateY(-110px);
+    /* max-width: 150px; */
+    /* Styles for user name */
+  }
+  
+  .avatar {
+ margin-right: 10px ;
+ width: 120px; /* Set the width and height of the container */
+  height: 120px;
+  border-radius: 50%; /* Make the container round */
+  overflow: hidden; /* Ensure the image doesn't overflow the container */
+    background-color: #000;
+    
+    /* Styles for avatar */
+  }
+  .avatar img{
+    display: block; /* Make the image a block element */
+  max-width: 100%; /* Ensure the image doesn't exceed its container's width */
+  max-height: 100%; /* Ensure the image doesn't exceed its container's height */
+  object-fit: cover;
+
+  }
+  
+  .phoneNumber {
+    margin-left: 170px;
+    transform: translateY(-80px);
+    /* max-width: 250px; */
+
+    /* Styles for phone number */
+  }
+  
+  .accountNumber {
+    margin-left: 170px;
+    transform: translateY(-80px);
+    /* max-width: 250px; */
+    /* Styles for account number
+     */
+  }
+

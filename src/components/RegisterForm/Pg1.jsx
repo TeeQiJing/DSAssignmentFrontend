@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import "./Pg1.css";
+
+
 import { Link } from "react-router-dom";
 
 
@@ -48,7 +50,8 @@ const Pg1 = () => {
   };
 
   return (
-    <div className="pg1-wrapper">
+    <div className='pg1-form'>
+      <div className="pg1-wrapper">
       <form action="">
         <h1>Register</h1>
         <div className="stepper">
@@ -167,6 +170,9 @@ const Pg1 = () => {
         </div>
       </form>
     </div>
+
+    </div>
+    
   );
 };
 

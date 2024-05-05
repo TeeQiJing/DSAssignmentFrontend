@@ -8,7 +8,8 @@ const Pg2 = () => {
   const steps = ["Personal Details", "Acccount Details", "Card Details"];
   
   return (
-    <div className="pg2-wrapper">
+    <div className='pg2-form'>
+      <div className="pg2-wrapper">
       <form action="">
         <h1>Register</h1>
         <div className="stepper">
@@ -63,6 +64,9 @@ const Pg2 = () => {
         
       </form>
     </div>
+
+    </div>
+    
   );
 };
 

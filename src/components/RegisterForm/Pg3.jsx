@@ -16,7 +16,8 @@ const Pg3 = () => {
         setSelectedCard(selectedOpt);
       };
   return (
-    <div className="pg3-wrapper">
+    <div className='pg3-form'>
+      <div className="pg3-wrapper">
       <form action="">
         <h1>Register</h1>
         <div className="stepper">
@@ -112,6 +113,8 @@ const Pg3 = () => {
         
       </form>
     </div>
+    </div>
+    
   );
 };
 

@@ -51,7 +51,7 @@ const Sidebar = () => {
     <Box
       sx={{
         "& .pro-sidebar-inner": {
-          background: `${colors.primary[400]} !important`,
+          background:`linear-gradient(to top, ${colors.primary[400]}, ${colors.primary[500]}) !important`,
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
@@ -154,7 +154,7 @@ const Sidebar = () => {
             />
             <Item
               title="Transcation History"
-              to="/invoices"
+              to="/transactionHistory"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

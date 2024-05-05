@@ -1,4 +1,18 @@
-@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
 
 html,
 body,
@@ -8,11 +22,41 @@ body,
   height: 100%;
   width: 100%;
   font-family: "Source Sans Pro", sans-serif;
+  overflow: hidden;
+  background: url('./components/Assets/1316804-Hogwarts-CastleBack-To-Hogwartsby-Vladislav-Pantic.jpg') no-repeat; 
+  background-size: cover; /* Scale the background image to fit within the container */
+  background-position: center  ; 
+
+  
+  
+ 
+  
+}
+.WrapperTransfer {
+ 
+
+}
+
+
+.login-form, .pg1-form, .pg2-form, .pg3-form{ 
+  font-family: "Poppins", sans-serif; 
+  -webkit-font-smoothing: antialiased; 
+  -moz-osx-font-smoothing: grayscale; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  width: 100vw; 
+  min-height: 100vh; 
+  background: url('./components/Assets/1316804-Hogwarts-CastleBack-To-Hogwartsby-Vladislav-Pantic.jpg') no-repeat; 
+  background-size: cover; 
+  background-position: center top ; 
+
 }
 
 .app {
   display: flex;
   position: relative;
+  
 }
 
 ::-webkit-scrollbar {
@@ -24,7 +68,3 @@ body,
   background: #e0e0e0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}

@@ -1,0 +1,161 @@
+.InnerWrapperTransfer{
+    width: 820px;
+    height: 610px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(100px);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, .2);
+    color:#fff;
+    border-radius: 10px;
+    padding: 20px 10px 30px 40px;
+    margin: auto auto;
+    transform: translateY(-10px);
+  
+
+}
+.WrapperTransfer{
+   
+
+}
+.Avatar1{
+    margin-left: 180px;
+    transform: translateY(10px);
+    width: 120px !important;
+    height: 120px !important;
+}
+.Avatar1 >svg{
+    color: rgb(234, 221, 221);
+    size: 100px;
+}
+.Avatar2{
+    transform: translateY(-110px);
+    margin-left: 500px;
+    width: 120px !important;
+    height: 120px !important;
+
+}
+.Avatar2 >svg{
+    color: rgb(234, 221, 221);
+    size: 100px;
+}
+.transferIcon> svg{
+    margin-left: 250px;
+    transform: translateY(-220px);
+    width: 300px;
+    height: 100px;
+
+}
+.TransferFromText{
+    margin-left: 170px;
+    transform:  translateY(-190px);
+
+}
+
+.TransferToText{
+    margin-left: 510px;
+    transform:  translateY(-222px);
+
+}
+.NameText{
+    margin-left: 0px;
+    transform:  translateY(-200px);
+
+}
+.SendName{
+    font-size: 16px;
+    margin-left: 210px;
+    transform:  translateY(-222px);
+
+}
+.ReceiveName{
+    font-size: 16px;
+    margin-left: 530px;
+    transform:  translateY(-245px);
+
+}
+.AccountNumText{
+    margin-left: 0px;
+    transform:  translateY(-210px);
+
+
+}
+.SendAccNum{
+    font-size: 16px;
+    margin-left: 195px;
+    transform: translateY(-233px);
+}
+.ReceiveAccNum{
+    font-size: 16px;
+    margin-left: 520px;
+    transform: translateY(-258px);
+}
+
+
+
+
+.AmountText{
+    margin-left: 0px;
+    transform:  translateY(-240px);
+
+
+}
+.AmountSpace{
+    margin-left: 180px;
+    transform:  translateY(-275px);
+    height: 35px;
+    border-radius: 5px;
+    border: none;
+    width: 150px;
+    
+
+}
+.CurrencySelector{
+    margin-left: 350px;
+    transform: translateY(-327px);
+    height: 38px;
+
+}
+.TotalAmount{
+    margin-left: 0px;
+    transform: translateY(-300px);
+    
+
+}
+.AmountValue{
+    padding-left: 30px;
+
+}
+.CategoryText{
+    margin-left: 0px;
+    transform:  translateY(-295px);
+
+
+}
+.CategorySelect{
+    margin-left: 180px;
+    transform:  translateY(-315px);
+    height: 30px;
+    width: 350px;
+    border-radius: 5px;
+
+}
+.ReferenceText{
+    margin-left: 0px;
+    transform:  translateY(-305px);
+
+}
+.ReferenceInput{
+    margin-left: 180px;
+    transform:  translateY(-325px);
+    height: 30px;
+    width: 350px;
+    border-radius: 5px;
+
+}
+.MuiBox-root .TransferButton{
+    margin-left: 180px;
+    transform:  translateY(-320px);
+    background-color: rgb(39, 7, 104);
+
+}
+
