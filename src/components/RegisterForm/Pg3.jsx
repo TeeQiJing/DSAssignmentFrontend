@@ -152,16 +152,64 @@ const Pg3 = ({
             'Content-Type': 'multipart/form-data',
           },
         });
-        alert('Account Registered Successfully !');
+        alert('Account Registered Successfully Please Check Your Email to get the Verification Token!');
+
+
+        try {
+
+          
+          var userInput = prompt('Please enter 6 characters verification tokens (Case Sensitive): ');
+
+          const resp = await axios.get(`http://localhost:8080/account/gettoken/${accountPayload.account_number}`);
+          const confirmationToken = resp.data.confirmationToken;
+  
+          while(userInput != confirmationToken || userInput==null){
+            alert('Verification token Incorrect! Please Try Again!');
+            userInput = prompt('Please enter 6 characters verification tokens (Case Sensitive): ');
+          }
+  
+          if(userInput==confirmationToken){
+            alert('Your email has been verified, and will be redirect to Login Page');
+            const response = await axios.get(`http://localhost:8080/account/verify/${confirmationToken}`);
+            console.log(response);
+            navigate("/login");
+            
+          }
+        } catch (error) {
+          console.error("Error :", error);
+        }
+
+        // var userInput = prompt('Please enter 6 characters verification tokens (Case Sensitive): ');
+  
+
+
+
       } catch (error) {
         alert('Image Upload Failed !');
       }
+
+
       
     } catch (error) {
         alert('Card Number already exists, Please try a new one!');
     }
 
     // User Avatar Upload
+
+    
+
+    // while(userInput == null || userInput=='') {
+    //   alert('Verification token entered is Empty!');
+    //   userInput = prompt('Please enter 6 characters verification tokens (Case Sensitive): ');
+    // }
+
+    
+
+  
+
+
+      
+    
    
 
   };

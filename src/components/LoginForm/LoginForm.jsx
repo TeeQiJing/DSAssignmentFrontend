@@ -2,38 +2,57 @@ import React, { useState } from "react";
 import "./LoginForm.css";
 import { FaUser, FaLock } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
+// import { useSession } from "../../SessionContext";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../AuthProvider";
 
 const LoginForm = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // const { sessionData, setSessionData } = useSession();
+  const { login } = useAuth();
 
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const url = `http://localhost:8080/account/login?username=${username}&password=${password}`;
-    if (username && password) {
-      fetch(url).then(async (response) => {
-        if (!response.ok) {
-          alert("Login Failed! Please check your Username and Password Again!");
+    login(email);
+    navigate("/");
+    // const url = `http://localhost:8080/account/login?email=${email}&password=${password}`;
+    // if (email && password) {
+    //   fetch(url).then(async (response) => {
+    //     if (!response.ok) {
+    //       alert("Login Failed! Please check your Email and Password Again!");
 
-          return;
-        }
+    //       return;
+    //     }
 
-        alert("Login Successfully!");
+    //     try {
+    //       const response = await axios.get(`http://localhost:8080/account/getByEmail/${email}`);
+    //       const userData = response.data;
+    //       setSessionData(userData);
+    //       console.log(userData.username);
+    //       console.log(sessionData);
+    //       // Redirect user to dashboard or perform other actions after successful login
+    //     } catch (error) {
+    //       console.error('Error logging in:', error);
+    //     }
 
-        navigate("/");
+    //     alert("Login Successfully!");
 
-        console.log(response.json);
 
-        return response.json();
-      });
+
+    //     navigate("/");
+
+    //     console.log(response.json);
+
+    //     return response.json();
+    //   });
 
       setPassword("");
-      setUsername("");
-    }
+      setEmail("");
+    
   };
   return (
     <div className="wrapper">
@@ -42,9 +61,9 @@ const LoginForm = () => {
         <div className="input-box">
           <input
             type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
           <FaUser className="icon" />
