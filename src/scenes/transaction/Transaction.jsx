@@ -30,18 +30,18 @@ const Transaction = () => {
     // const database = recentSearches.concat([.../* Other database data */]);
     // return database.some(user => Object.values(user).includes(value));
 
-    try {
-        const response = await axios.get(`http://localhost:8080/ContactList/${accountNumber}`, JSON.stringify(accountPayload), {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        console.log(response.data); // Handle response if needed
-      } catch (error) {
-        alert('Account Registered Failed! The Account Number, Card Number, Email, Contact Number and Username must be Unique!' );
-        // navigate("/login");
-        return;
-      }
+    // try {
+    //     const response = await axios.get(`http://localhost:8080/ContactList/${accountNumber}`, JSON.stringify(accountPayload), {
+    //       headers: {
+    //         'Content-Type': 'application/json'
+    //       }
+    //     });
+    //     console.log(response.data); // Handle response if needed
+    //   } catch (error) {
+    //     alert('Account Registered Failed! The Account Number, Card Number, Email, Contact Number and Username must be Unique!' );
+    //     // navigate("/login");
+    //     return;
+    //   }
 
 
 
