@@ -20,10 +20,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import PaidIcon from '@mui/icons-material/Paid';
 import ImportExportIcon from '@mui/icons-material/ImportExport';
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+// import { useSession } from "../../SessionContext";
+import { useAuth } from "../../AuthProvider";
+import GetUserAvatar from "../../GetUserAvatar";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  
+  
   return (
     <MenuItem
       active={selected === title}
@@ -40,12 +45,20 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 };
 
 const Sidebar = () => {
+  const { isLoggedIn, userData } = useAuth();
+  
+
+  // const { sessionData } = useSession();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [username, setUsername] = useState('UserA');
+  const [username, setUsername] = useState('');
   const [account_type, setAccount_type] = useState('Platinum Patronus');
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  // const imageSrc = GetUserAvatar(userData.account_number);
+
+
+  // setUsername(sessionData.username);
 
   return (
     <Box
@@ -97,15 +110,21 @@ const Sidebar = () => {
 
           {!isCollapsed && (
             <Box mb="25px">
-              <Box display="flex" justifyContent="center" alignItems="center">
-                <img
+              {/* <Box display="flex" justifyContent="center" alignItems="center" width="100px" height="100px" borderRadius="50%" overflow="hidden"> */}
+                {/* <img
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={`../../assets/user.png`}
+                  
+                  src={imageSrc || `../../assets/user.png`}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
-                />
-              </Box>
+                /> */}
+                
+                  {/* <GetUserAvatar accountNumber={userData.account_number} />
+              </Box> */}
+                      <div className="avatar" style={{"marginLeft" : "67px"}}>
+          <GetUserAvatar accountNumber={userData.account_number} />
+        </div>
               <Box textAlign="center">
                 <Typography
                   variant="h2"
@@ -113,10 +132,10 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  {username}
+                  {userData.username}
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  {account_type}
+                  {userData.account_type}
                 </Typography>
               </Box>
             </Box>

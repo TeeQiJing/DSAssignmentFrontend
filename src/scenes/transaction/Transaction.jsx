@@ -1,79 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, TextField, Button } from "@mui/material";
 import Header from "../../components/Header";
 import "./Transaction.css";
-import AddContact from "./AddContact"; // Import the AddContact component
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../AuthProvider";
 import axios from "axios";
+import GetUserAvatar from "../../GetUserAvatar";
 
 const Transaction = () => {
+  const { userData } = useAuth();
   const [searchValue, setSearchValue] = useState("");
-  const [searchResult, setSearchResult] = useState(null);
-  const navigate = useNavigate();
-  // Demo data for recent user searches
-  const recentSearches = [
-    {
-      userName: "John Doe",
-      phoneNumber: "123456789",
-      accountNumber: "123456789",
-    },
-    {
-      userName: "Jane Smith",
-      phoneNumber: "987654321",
-      accountNumber: "987654321",
-    },
-    // Add more recent searches here...
-  ];
+  const [contactList, setContactList] = useState([]);
+  const [filteredContactList, setFilteredContactList] = useState([]);
+  const [searching, setSearching] = useState(false);
 
-  const existsInDatabase = async (value) => {
-    // // Simulated database check
-    // const database = recentSearches.concat([.../* Other database data */]);
-    // return database.some(user => Object.values(user).includes(value));
-
-    try {
-        const response = await axios.get(`http://localhost:8080/ContactList/${accountNumber}`, JSON.stringify(accountPayload), {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        console.log(response.data); // Handle response if needed
+  // Fetch all contacts when searchValue is empty or changes
+  useEffect(() => {
+    const fetchAllContacts = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/ContactList/${userData.username}`
+        );
+        setContactList(response.data);
       } catch (error) {
-        alert('Account Registered Failed! The Account Number, Card Number, Email, Contact Number and Username must be Unique!' );
-        // navigate("/login");
-        return;
+        console.error("Error fetching all contacts:", error);
       }
+    };
 
-
-
-
-  };
-
-  const handleSearch = () => {
-    // Simulated search logic, replace with actual logic to check if the search value exists in the database
-    const existsInDatabase = true; // Replace with actual check
-
-    if (existsInDatabase) {
-      // Check if the user is in the contact list
-      const isInContactList = false; // Replace with actual check
-
-      if (isInContactList) {
-        setSearchResult("UserExistsInContactList");
-      } else {
-        setSearchResult("UserExistsInDatabaseButNotContactList");
-      }
-    } else {
-      setSearchResult("UserNotFound");
+    if (searchValue.trim() === "" || searching) {
+      fetchAllContacts();
     }
-  };
+  }, [userData.username, searchValue, searching]);
 
-  const handleAddContact = () => {
-    // Logic to add the user to the contact list
-    console.log("Adding user to contact list...");
-    navigate("/transaction/addContact");
-  };
+  // Fetch filtered contacts based on searchValue
+  useEffect(() => {
+    const fetchFilteredContacts = async () => {
+      if (searchValue.trim() !== "") {
+        try {
+          const response = await axios.get(
+            `http://localhost:8080/ContactList/${userData.username}/${searchValue}`
+          );
+          setFilteredContactList(response.data);
+        } catch (error) {
+          console.error("Error fetching filtered contacts:", error);
+        }
+      }
+    };
 
-  const handleBack = () => {
-    setSearchResult(null); // Reset search result
+    fetchFilteredContacts();
+  }, [userData.username, searchValue]);
+
+  const handleSearchOnChange = (e) => {
+    setSearchValue(e.target.value);
+    setSearching(true);
+    if (!e.target.value) {
+      setSearching(false);
+    }
   };
 
   return (
@@ -85,53 +66,44 @@ const Transaction = () => {
           label="Enter Account Number, Nickname, or Phone Number"
           variant="outlined"
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={handleSearchOnChange}
         />
       </Box>
       <Box mt={2}>
-        <Button variant="contained" color="primary" onClick={handleSearch}>
+        <Button variant="contained" color="primary">
           Search
         </Button>
       </Box>
       <Box mt={2}>
         <Header subtitle="Contact List" />
-        {searchValue === "" &&
-          recentSearches.map((user, index) => (
-            <Box className="userBoxContainer">
-             
-                <Box key={index} className="userBox">
-                  <div className="avatar">
-                    <img src={user.avatarUrl} alt="Avatar" />
-                  </div>
-                  <div className="userName">Name: {user.userName}</div>
-                  <div className="phoneNumber">
-                    Phone Number: {user.phoneNumber}
-                  </div>
-                  <div className="accountNumber">
-                    Account Number: {user.accountNumber}
-                  </div>
-                </Box>
-           
-            </Box>
-          ))}
-        {searchResult === "UserExistsInContactList" && (
-          <Box>The user exists in your contact list.</Box>
+        {searching ? (
+          filteredContactList.map((contact, index) => (
+            <ContactItem key={index} contact={contact} />
+          ))
+        ) : (
+          contactList.map((contact, index) => (
+            <ContactItem key={index} contact={contact} />
+          ))
         )}
-        {searchResult === "UserExistsInDatabaseButNotContactList" && (
-          <Box>
-            The user exists in the database but not in your contact list.
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleAddContact}
-            >
-              Add Contact
-            </Button>
-          </Box>
-        )}
-        {searchResult === "UserNotFound" && (
-          <Box>The searched user does not exist.</Box>
-        )}
+      </Box>
+    </Box>
+  );
+};
+
+const ContactItem = ({ contact }) => {
+  return (
+    <Box className="userBoxContainer">
+      <Box className="userBox">
+        <div className="avatar">
+          <GetUserAvatar accountNumber={contact.account_number} />
+        </div>
+        <div className="userName">Name: {contact.user_created_name}</div>
+        <div className="phoneNumber">
+          Phone Number: {contact.contact_mobile}
+        </div>
+        <div className="accountNumber">
+          Account Number: {contact.account_number}
+        </div>
       </Box>
     </Box>
   );

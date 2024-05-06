@@ -14,18 +14,20 @@ import { FileDataProvider } from "./FileDataContext";
 import GetImg from "./GetImg";
 
 import { Login } from "@mui/icons-material";
-import { SessionProvider } from "./SessionContext";
+// import { SessionProvider } from "./SessionContext";
+import { AuthProvider } from "./AuthProvider";
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <SessionProvider>
+    <AuthProvider>
+    {/* <SessionProvider> */}
     <FileDataProvider>
     <BrowserRouter>
 
     <Routes>
-        <Route path="/" element={<App />} />
+        <Route path="*" element={<App />} />
         <Route path="/login" element={<LoginForm />} />
         
           <Route path="/register/*" element={<Parent />} />
@@ -38,7 +40,8 @@ root.render(
     </BrowserRouter>
 
     </FileDataProvider>
-    </SessionProvider>
+    {/* </SessionProvider> */}
+    </AuthProvider>
   </React.StrictMode>
 
 );
