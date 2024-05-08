@@ -20,19 +20,20 @@
     margin-bottom: 20px;
 
 }
-.NickNameField{
+.WrapperAddContact .NickNameField{
+    margin: 20px 0 20px 20px;
+    
+
+}
+.WrapperAddContact .PhoneNumField{
     margin: 20px 0 20px 20px;
 
 }
-.PhoneNumField{
+.WrapperAddContact .AccNumField{
     margin: 20px 0 20px 20px;
 
 }
-.AccNumField{
-    margin: 20px 0 20px 20px;
-
-}
-.ButtonFinish{
+.WrapperAddContact .ButtonFinish{
     margin: 20px 0 20px 300px;
 
 

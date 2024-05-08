@@ -1,0 +1,10 @@
+
+.SenderCell .Sender_Text{
+    margin-right: -50px;
+ 
+ }
+ .SenderCell .Receiver_Text{
+   margin-left:-500px ;
+   transform: translateY(-10px);
+
+}

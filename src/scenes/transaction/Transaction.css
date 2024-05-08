@@ -14,12 +14,13 @@
     max-width: 350px ;
 
 }
-/* Container holding the user boxes */
-.userBoxContainer {
-    max-height: 520px; /* Adjust height as needed */
-    overflow-y: auto;
-     /* Enable vertical scrolling */
+.userBoxContainerr {
+  
+   /* Enable vertical scrolling */
 }
+
+/* Container holding the user boxes */
+
 
 /* Define styles for all user boxes */
 .userBox {
@@ -27,19 +28,20 @@
     padding: 10px;
     border: 1px solid #ccc;
     margin-bottom: 10px;
-    background-color: rgba(7, 51, 99, 0.8);
+    background-color: rgba(66, 124, 186, 0.8);
     max-height: 150px;
 }
 
 /* Define styles for user boxes with even index */
 .userBox:nth-child(even) {
-    background-color: rgba(7, 51, 99, 0.6);
+    background-color: rgba(12, 12, 13, 0.6);
+    
 }
 
 /* Define styles for user boxes with odd index */
 .userBox:nth-child(odd) {
-    background-color: rgba(7, 51, 99, 0.4); /* Background color with transparency */
-
+    background-color: rgba(10, 106, 154, 0.4); /* Background color with transparency */
+    
 
 }
 .userInfo {
@@ -89,4 +91,52 @@
     /* Styles for account number
      */
   }
+  /* Transaction.css
+.userNotFoundMessage {
+  margin-top: 10px;
+}
 
+.addContactButton {
+  margin-left: 10px; /* Adjust margin as needed */
+/* } */ 
+.TransferBox{
+  /* max-height: 20px; */
+  /* max-width: 120px; */
+  
+  /* margin-left: 1100px; */
+  /* position: relative; */
+  margin-left: 800px;
+transform: translateY(-150px);
+
+
+
+}
+.TransferBox .transferButton{
+  background: black;
+/*   
+  transform: translateY(-150px);
+  margin-left: 1000px
+   */
+   
+}
+.userNotFoundMessage {
+  font-size: 240x;
+  display: flex;
+  align-items: center;
+  
+}
+
+.userNotFoundMessage button {
+  margin-left: 10px;
+  background-color: white;
+  font-family:"Source Sans Pro";
+  color: red;
+  border: 1px solid red; /* Add border for better visibility */
+  transition: background-color 0.3s ease; /* Smooth transition effect */
+  
+  
+}
+.userNotFoundMessage button:hover {
+  background-color: black; /* Change background color on hover */
+  color: white; /* Change text color on hover */
+}
