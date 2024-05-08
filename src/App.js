@@ -33,7 +33,7 @@ function App() {
                 <Routes>
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/transaction" element={<Transaction />} />
-                  <Route path="/transaction/transfer" element={<Transfer />} />
+                  <Route path="/transaction/transfer/" element={<Transfer />} />
                   <Route
                     path="/transaction/addContact"
                     element={<AddContact />}

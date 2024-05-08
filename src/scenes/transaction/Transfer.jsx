@@ -1,39 +1,44 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, Avatar, Select, MenuItem } from "@mui/material";
+import { Box, Button, Select, MenuItem } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { BiTransfer } from "react-icons/bi";
+import axios from "axios";
 
+import { useAuth } from "../../AuthProvider";
+import GetUserAvatar from "../../GetUserAvatar";
 import "./Transfer.css";
 
 const Transfer = () => {
+  const { userData } = useAuth();
   const [senderAccountNumber, setSenderAccountNumber] = useState("");
   const [receiverAccountNumber, setReceiverAccountNumber] = useState("");
+  const [receiverUsername, setReceiverUsername] = useState("");
+  const [senderUsername, setSenderUsername] = useState("");
   const [transferAmount, setTransferAmount] = useState(0);
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [reference, setReference] = useState("");
+  const [senderCurrencyType, setSenderCurrencyType] = useState("Knut");
+  const [receiverCurrencyType, setReceiverCurrencyType] = useState("Knut");
   const [dailyLimit, setDailyLimit] = useState(0);
-  const [currencyType, setCurrencyType] = useState("Knut");
-  const [demoNames, setDemoNames] = useState(["John Doe", "Jane Smith"]); // Sample names
-  const location = useLocation(); // Get location using useLocation hook
+  const [reference, setReference] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const location = useLocation();
+  const accountNumber = location.state ? location.state.accountNumber : null;
 
   useEffect(() => {
-    // Simulate data retrieval from the database
-    // In a real application, you would fetch data from the backend
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/account/${accountNumber}`
+        );
+        const data = response.data;
+        setReceiverUsername(data.username);
+      } catch (error) {
+        console.error("Error :", error);
+      }
+    };
 
-    // Extract query parameters from location
-    const searchParams = new URLSearchParams(location.search);
-    const type = searchParams.get("type");
-    const value = searchParams.get("value");
+    fetchData();
 
-    // Simulated data based on search parameters
-    // In a real application, this would be fetched from the backend
-    // Simulated sender's account number (replace with actual logic)
-    const senderAccountNum = "1234567890";
-
-    // Simulated receiver's account number based on search value (replace with actual logic)
-    const receiverAccountNum = value === "123" ? "9876543210" : "9998887776";
-    // Simulated daily limit based on sender's account type (replace with actual logic)
-    const senderAccountType = "silver"; // Example account type
+    const senderAccountType = "silver";
     const dailyLimits = {
       silver: 5000,
       gold: 10000,
@@ -42,78 +47,87 @@ const Transfer = () => {
     const senderDailyLimit = dailyLimits[senderAccountType];
 
     // Set state values based on simulated data
-    setSenderAccountNumber(senderAccountNum);
-    setReceiverAccountNumber(receiverAccountNum);
+    setSenderAccountNumber(userData.account_number);
+    setReceiverAccountNumber(accountNumber);
+    setSenderUsername(userData.username);
     setDailyLimit(senderDailyLimit);
-  }, [location.search]); // useEffect dependency on location.search to re-run when search changes
+  }, [accountNumber, userData.username]);
 
   const handleTransfer = () => {
     // Simulate transfer process
     console.log(
-      `Transferring ${transferAmount} to account ${receiverAccountNumber} with category ${selectedCategory}`
+      `Transferring ${transferAmount} ${senderCurrencyType} to account ${receiverAccountNumber} with category ${selectedCategory}`
     );
   };
 
-  // const conversionRates = {
-  //   Knut: { Knut: 1, Sickle: 29, Galleon: 493 },
-  //   Sickle: { Knut: 0.03448, Sickle: 1, Galleon: 17 },
-  //   Galleon: { Knut: 0.002028, Sickle: 0.05882, Galleon: 1 }
-  // };
-
-  const calculateTotalInKnut = (amount, currencyType) => {
-    // Define the conversion rates
-    const conversionRates = {
+  const calculateTotalAmountWithFee = () => {
+    const currencies = {
       Knut: { Knut: 1, Sickle: 29, Galleon: 493 },
       Sickle: { Knut: 0.03448, Sickle: 1, Galleon: 17 },
       Galleon: { Knut: 0.002028, Sickle: 0.05882, Galleon: 1 },
     };
 
-    // Convert the amount to a number
-    amount = Number(amount);
+    const senderConversionRate =
+      currencies[senderCurrencyType][receiverCurrencyType];
+    const totalAmount = transferAmount * senderConversionRate;
 
-    // Check if the currency type is valid
-    if (!conversionRates[currencyType]) {
-      console.error(`Invalid currency type: ${currencyType}`);
-      return "N/A";
-    }
+    return totalAmount.toFixed(2);
+  };
 
-    // Get the conversion rate for the selected currency type
-    const conversionRate = conversionRates[currencyType]["Knut"];
+  const calculateServiceFee = () => {
+    const serviceRates = {
+      Knut: { Sickle: 0.01, Galleon: 0.02 },
+      Sickle: { Knut: 0.03, Galleon: 0.04 },
+      Galleon: { Knut: 0.05, Sickle: 0.06 },
+    };
 
-    // Calculate the total amount in Knuts
-    const totalAmount = (amount * conversionRate).toFixed(2);
+    const serviceFee =
+      serviceRates[senderCurrencyType]?.[receiverCurrencyType] *
+        transferAmount || 0;
+    return serviceFee.toFixed(2);
+  };
 
-    return totalAmount;
+  const calculateTotalAmountWithServiceFee = () => {
+    const totalAmount =
+      parseFloat(transferAmount) + parseFloat(calculateServiceFee());
+    return totalAmount.toFixed(2);
   };
 
   return (
     <div className="WrapperTransfer">
       <Box m="20px">
         <h1>Transfer</h1> {/* Greeting message */}
+        
         <div className="InnerWrapperTransfer">
           {/* Display sender's avatar */}
-          <Avatar className="Avatar1" src="sender-avatar.jpg" />
+          <div className="avatar" style={{ transform: 'translateX(172px) translateY(7px)' }}>
+          <GetUserAvatar accountNumber={senderAccountNumber} />
+        </div>
           {/* Display receiver's avatar */}
-          <Avatar className="Avatar2" src="receiver-avatar.jpg" />
+          <div className="avatar" style={{ transform: 'translateX(504px) translateY(-112px)' }}>
+          <GetUserAvatar accountNumber={receiverAccountNumber} />
+        </div>
           <div className="transferIcon">
             <BiTransfer />
           </div>
-          <Box>
+          {/* <Box> */}
             <h2 className="TransferFromText">Transfer From </h2>
             <h2 className="TransferToText">Transfer To </h2>
             <div className="NameText">Name : </div>
             <div className="SendName">
-              {demoNames[0]} {/* Display the first demo name */}
+              {/* {demoNames[0]} Display the first demo name */}
+              {senderUsername}
             </div>
             <div className="ReceiveName">
-              {demoNames[1]} {/* Display the second demo name */}
+              {/* {demoNames[1]} Display the second demo name */}
+              {receiverUsername}
             </div>
             <div className="AccountNumText">Account Number : </div>
 
             <div className="SendAccNum">{senderAccountNumber}</div>
             <div className="ReceiveAccNum">{receiverAccountNumber}</div>
-          </Box>
-          <Box mt={2}>
+          {/* </Box>
+          <Box mt={2}> */}
             <div className="AmountText">
               Amount : <br />
               (Daily limit RM{dailyLimit})
@@ -125,13 +139,24 @@ const Transfer = () => {
               value={transferAmount}
               onChange={(e) => setTransferAmount(e.target.value)}
             />
-          </Box>
-          <Box mt={2}>
+          {/* </Box>
+          <Box mt={2}> */}
             <div>
               <Select
-                className="CurrencySelector"
-                value={currencyType}
-                onChange={(e) => setCurrencyType(e.target.value)}
+                className="CurrencySelector1"
+                value={senderCurrencyType}
+                onChange={(e) => setSenderCurrencyType(e.target.value)}
+              >
+                <MenuItem value="Knut">Knut</MenuItem>
+                <MenuItem value="Sickle">Sickle</MenuItem>
+                <MenuItem value="Galleon">Galleon</MenuItem>
+              </Select>
+            </div>
+            <div>
+              <Select
+                className="CurrencySelector2"
+                value={receiverCurrencyType}
+                onChange={(e) => setReceiverCurrencyType(e.target.value)}
               >
                 <MenuItem value="Knut">Knut</MenuItem>
                 <MenuItem value="Sickle">Sickle</MenuItem>
@@ -139,13 +164,39 @@ const Transfer = () => {
               </Select>
             </div>
             <div className="TotalAmount">
-              Total Amount (in Knuts) :{" "}
+              Total Amount :
+              {
+                "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0"
+              }
               <span className="AmountValue">
-                {calculateTotalInKnut(transferAmount, currencyType)}
+                {transferAmount} {senderCurrencyType} ={" "}
+                {calculateTotalAmountWithFee()} {receiverCurrencyType}
               </span>
             </div>
-          </Box>
-          <Box mt={2}>
+            <div className="ServiceFee">
+              Service Fee :
+              {
+                "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0"
+              }
+              <span className="FeeValue">
+                {isNaN(parseFloat(calculateServiceFee()))
+                  ? 0
+                  : calculateServiceFee()}{" "}
+                {senderCurrencyType}
+              </span>
+            </div>
+            <div className="TotalAmountWithFee">
+              Total Amount :
+              {
+                "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0"
+              }
+              <span className="AmountWithFeeValue">
+                {calculateTotalAmountWithServiceFee()} {senderCurrencyType}
+              </span>
+            </div>
+            <div className="WithServiceFee">(with Service Fee)</div>
+          {/* </Box>
+          <Box mt={2}> */}
             <div className="CategoryText">Category :</div>
             <select
               className="CategorySelect"
@@ -158,8 +209,8 @@ const Transfer = () => {
               <option value="Grocery">Grocery</option>
               <option value="Business">Business</option>
             </select>
-          </Box>
-          <Box mt={2}>
+          {/* </Box>
+          <Box mt={2}> */}
             <div className="ReferenceText">Reference :</div>
             <input
               type="text"
@@ -167,17 +218,18 @@ const Transfer = () => {
               value={reference}
               onChange={(e) => setReference(e.target.value)}
             />
-          </Box>
-          <Box mt={2}>
-            <Button
-              className="TransferButton"
-              variant="contained"
-              color="primary"
-              onClick={handleTransfer}
-            >
-              Transfer
-            </Button>
-          </Box>
+          {/* </Box> */}
+
+          {/* <Box mt={2}> */}
+          <Button
+            className="TransferButton"
+            variant="contained"
+            color="primary"
+            onClick={handleTransfer}
+          >
+            Transfer
+          </Button>
+        {/* </Box> */}
         </div>
       </Box>
     </div>

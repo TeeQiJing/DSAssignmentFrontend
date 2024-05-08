@@ -1,6 +1,6 @@
 .InnerWrapperTransfer{
-    width: 820px;
-    height: 610px;
+    width: 780px;
+    height: 651px;
     background: transparent;
     border: 2px solid rgba(255, 255, 255, .2);
     backdrop-filter: blur(100px);
@@ -9,17 +9,18 @@
     border-radius: 10px;
     padding: 20px 10px 30px 40px;
     margin: auto auto;
-    transform: translateY(-10px);
+    transform: translateY(-80px);
   
 
 }
 .WrapperTransfer{
-   
+    /* overflow-y: auto; */
+    max-height: 800px;
 
 }
 .Avatar1{
     margin-left: 180px;
-    transform: translateY(10px);
+    transform: translateY(0px);
     width: 120px !important;
     height: 120px !important;
 }
@@ -28,7 +29,7 @@
     size: 100px;
 }
 .Avatar2{
-    transform: translateY(-110px);
+    transform: translateY(-120px);
     margin-left: 500px;
     width: 120px !important;
     height: 120px !important;
@@ -40,84 +41,93 @@
 }
 .transferIcon> svg{
     margin-left: 250px;
-    transform: translateY(-220px);
+    transform: translateY(-230px);
     width: 300px;
     height: 100px;
 
 }
 .TransferFromText{
     margin-left: 170px;
-    transform:  translateY(-190px);
+    transform:  translateY(-210px);
 
 }
 
 .TransferToText{
     margin-left: 510px;
-    transform:  translateY(-222px);
+    transform:  translateY(-242px);
 
 }
 .NameText{
     margin-left: 0px;
-    transform:  translateY(-200px);
+    transform:  translateY(-220px);
 
 }
 .SendName{
     font-size: 16px;
     margin-left: 210px;
-    transform:  translateY(-222px);
+    transform:  translateY(-242px);
 
 }
 .ReceiveName{
     font-size: 16px;
     margin-left: 530px;
-    transform:  translateY(-245px);
+    transform:  translateY(-265px);
 
 }
 .AccountNumText{
     margin-left: 0px;
-    transform:  translateY(-210px);
+    transform:  translateY(-240px);
 
 
 }
 .SendAccNum{
     font-size: 16px;
     margin-left: 195px;
-    transform: translateY(-233px);
+    transform: translateY(-263px);
 }
 .ReceiveAccNum{
     font-size: 16px;
     margin-left: 520px;
-    transform: translateY(-258px);
+    transform: translateY(-288px);
 }
+
 
 
 
 
 .AmountText{
     margin-left: 0px;
-    transform:  translateY(-240px);
+    transform:  translateY(-280px);
 
 
 }
 .AmountSpace{
-    margin-left: 180px;
-    transform:  translateY(-275px);
+    margin-left: 185px;
+    transform:  translateY(-315px);
     height: 35px;
     border-radius: 5px;
     border: none;
-    width: 150px;
+    width: 345px;
     
 
 }
-.CurrencySelector{
-    margin-left: 350px;
-    transform: translateY(-327px);
+.CurrencySelector1{
+    margin-left: 560px;
+    transform: translateY(-350px);
     height: 38px;
+    width:  100px;
+
+}
+.CurrencySelector2{
+    margin-left: 560px;
+    transform: translateY(-347px);
+    height: 38px;
+    width:  100px;
 
 }
 .TotalAmount{
     margin-left: 0px;
-    transform: translateY(-300px);
+    transform: translateY(-375px);
     
 
 }
@@ -125,15 +135,40 @@
     padding-left: 30px;
 
 }
+.ServiceFee{
+    margin-left: 0px;
+    transform: translateY(-353px);
+
+
+}
+
+.TotalAmountWithFee{
+    margin-left: 0px;
+    transform: translateY(-335px);
+
+
+}
+.AmountWithFeeValue{
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(255, 0, 0);
+
+}
+.WithServiceFee{
+    margin-left: 0px;
+    transform: translateY(-335px);
+
+
+}
 .CategoryText{
     margin-left: 0px;
-    transform:  translateY(-295px);
+    transform:  translateY(-325px);
 
 
 }
 .CategorySelect{
     margin-left: 180px;
-    transform:  translateY(-315px);
+    transform:  translateY(-345px);
     height: 30px;
     width: 350px;
     border-radius: 5px;
@@ -141,19 +176,19 @@
 }
 .ReferenceText{
     margin-left: 0px;
-    transform:  translateY(-305px);
+    transform:  translateY(-335px);
 
 }
 .ReferenceInput{
     margin-left: 180px;
-    transform:  translateY(-325px);
+    transform:  translateY(-355px);
     height: 30px;
     width: 350px;
     border-radius: 5px;
 
 }
 .MuiBox-root .TransferButton{
-    margin-left: 180px;
+    margin-left: 300px;
     transform:  translateY(-320px);
     background-color: rgb(39, 7, 104);
 
