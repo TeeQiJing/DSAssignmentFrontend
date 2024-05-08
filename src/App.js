@@ -10,6 +10,7 @@ import Transfer from "./scenes/transaction/Transfer";
 import AddContact from "./scenes/transaction/AddContact";
 // import { SessionProvider, useSession } from "./SessionContext";
 import { useAuth } from "./AuthProvider";
+import TransactionHisTest from "./scenes/transactionHistory/TransactionHistory copy";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -39,7 +40,7 @@ function App() {
                   />
                   <Route
                     path="/transactionHistory"
-                    element={<TransactionHistory />}
+                    element={<TransactionHisTest />}
                   />
                   {/* Other routes */}
                 </Routes>
