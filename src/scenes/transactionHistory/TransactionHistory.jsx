@@ -1,76 +1,172 @@
-import React, { useState, useEffect } from "react";
-import { Box, Button, Typography, Select, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import { tokens } from "../../theme";
+// import { mockDataTeam } from "../../data/mockData";
+import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
+import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
+import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
-import TransactionItem from "./TransactionItem";
-import axios from "axios";
-// import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { useAuth } from "../../AuthProvider";
-import "./TransactionHistory.css"
-import { Margin } from "@mui/icons-material";
+import { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
 
 const TransactionHistory = () => {
-  // State for transaction data
-  const [transactions, setTransactions] = useState([]);
-  const { userData } = useAuth();
-  // State for filters (date range, category, etc.)
-  // const [filters, setFilters] = useState({
-  //   startDate: null,
-  //   endDate: null,
-  //   category: "",
-  // });
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const {userData} = useAuth();
+  const [transactionData, setTransactionData] = useState([]);
 
 
-  // Fetch transaction data based on filters
   useEffect(() => {
-    const fetchTransactions = async () => {
+    const fetchTransactionsHistory = async () => {
       try {
-        // Make API request to fetch transactions
+        // Make API request to fetch transactions history
         const response = await axios.get(`http://localhost:8080/transaction/getTransactionHistory/${userData.account_number}`);
-        setTransactions(response.data);
-        // console.log(transactions); // Log response.data to inspect its structure
+        const transactions = response.data;
+  
+        // Extract unique user account numbers from transactions
+        const uniqueAccountNumbers = [...new Set(transactions.flatMap(transaction => [transaction.sender_account_number, transaction.receiver_account_number]))];
+  
+        // Fetch user data for all unique account numbers in parallel
+        const userResponses = await Promise.all(uniqueAccountNumbers.map(accountNumber => axios.get(`http://localhost:8080/account/${accountNumber}`)));
+        const userDataMap = Object.fromEntries(userResponses.map(response => [response.data.account_number, response.data]));
+  
+        // Format the transaction data
+        const formattedTransactionData = transactions.map(transaction => ({
+          ...transaction,
+          id: transaction.transaction_id, // Rename transaction_id to id
+          sender: `${transaction.sender_account_number} - ${userDataMap[transaction.sender_account_number]?.username || ''}`,
+          receiver: `${transaction.receiver_account_number} - ${userDataMap[transaction.receiver_account_number]?.username || ''}`,
+          amount: transaction.amount,
+          category: transaction.category,
+          reference: transaction.reference
+        }));
+  
+        // Set the formatted transaction data
+        setTransactionData(formattedTransactionData);
       } catch (error) {
         console.error("Error fetching transactions:", error);
       }
     };
-    fetchTransactions();
+  
+    fetchTransactionsHistory();
   }, [userData.account_number]);
+   
+  
 
-  console.log(transactions); // Log transactions outside useEffect
-  // Handle filter changes
-  // const handleFilterChange = (filterName, value) => {
-  //   setFilters({ ...filters, [filterName]: value });
-  // };
 
-  // Predefined list of categories
-  // const categories = ["Game", "Entertainment", "Grocery", "Business"];
+  
+  const columns = [
+    { field: "id", headerName: "ID" },
+    {
+      field: "sender",
+      headerName: "Sender",
+      flex: 1,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "receiver",
+      headerName: "Receiver",
+      flex: 1,
+      cellClassName: "name-column--cell",
+      // type: "number",
+      headerAlign: "left",
+      align: "left",
+    },
+    {
+      field: "amount",
+      headerName: "Amount",
+      type: "number",
+      flex: 1,
+      headerAlign: "left",
+      align: "left",
+    },
+    {
+      field: "reference",
+      headerName: "Reference",
+      flex: 2,
+      headerAlign: "left",
+      align: "left",
+    },
+    {
+      field: "category",
+      headerName: "Category",
+      flex: 1,
+      headerAlign: "left",
+      align: "left",
+    },
+    {
+      field: "date_of_trans",
+      headerName: "Date",
+      flex: 1,
+      headerAlign: "left",
+      align: "left",
+      // renderCell: ({ row: { access } }) => {
+      //   return (
+      //     <Box
+      //       width="60%"
+      //       m="0 auto"
+      //       p="5px"
+      //       display="flex"
+      //       justifyContent="center"
+      //       backgroundColor={
+      //         access === "admin"
+      //           ? colors.greenAccent[600]
+      //           : access === "manager"
+      //           ? colors.greenAccent[700]
+      //           : colors.greenAccent[700]
+      //       }
+      //       borderRadius="4px"
+      //     >
+      //       {access === "admin" && <AdminPanelSettingsOutlinedIcon />}
+      //       {access === "manager" && <SecurityOutlinedIcon />}
+      //       {access === "user" && <LockOpenOutlinedIcon />}
+      //       <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
+      //         {access}
+      //       </Typography>
+      //     </Box>
+      //   );
+      // },
+    },
+  ];
 
   return (
-    <Box m="20px">
-    <Header title="Transaction History" />
-    <TableContainer component={Paper} >
-      <Table className="BigTable">
-        <TableHead >
-          <TableRow className="SenderCell">
-            <TableCell className="SenderCell" style={{ transform: 'translateX(10px)' }}>Sender</TableCell>
-            <TableCell className="ReceiverCell" style={{ transform: 'translateX(-150px)' }}>Receiver</TableCell>
-            <TableCell>Date</TableCell>
-            <TableCell>Time</TableCell>
-            <TableCell>Category</TableCell>
-            <TableCell>Reference</TableCell>
-            <TableCell>Sender Account</TableCell>
-            <TableCell>Receiver Account</TableCell>
-            <TableCell>Amount</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody className="Tablebody">
-          {transactions.map((transaction, index) => (
-            <TransactionItem key={index} transaction={transaction} />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  </Box>
+    <Box m="20px" >
+      <Header title="TRANSACTION HISTORY" subtitle="Managing Your Transactions" />
+      <Box
+        m="40px 0 0 0"
+        height="73vh"
+        sx={{
+          "& .MuiDataGrid-root": {
+            border: "none",
+
+          },
+          "& .MuiDataGrid-cell": {
+            borderBottom: "none",
+          },
+          "& .name-column--cell": {
+            color: colors.greenAccent[300],
+          },
+          "& .MuiDataGrid-columnHeaders": {
+            backgroundColor: colors.blueAccent[700],
+            borderBottom: "none",
+          },
+          "& .MuiDataGrid-virtualScroller": {
+            backgroundColor: colors.primary[400],
+          },
+          "& .MuiDataGrid-footerContainer": {
+            borderTop: "none",
+            backgroundColor: colors.blueAccent[700],
+          },
+          "& .MuiCheckbox-root": {
+            color: `${colors.greenAccent[200]} !important`,
+          },
+        }}
+      >
+        <DataGrid checkboxSelection rows={transactionData} columns={columns} />
+      </Box>
+    </Box>
   );
 };
 

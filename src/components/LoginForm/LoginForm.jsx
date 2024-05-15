@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./LoginForm.css";
 import { FaUser, FaLock } from "react-icons/fa";
 import { Link } from "react-router-dom";
-// import { useSession } from "../../SessionContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../AuthProvider";
@@ -10,50 +9,25 @@ import { useAuth } from "../../AuthProvider";
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const { sessionData, setSessionData } = useSession();
   const { login } = useAuth();
-
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    login(email);
-    navigate("/");
-    // const url = `http://localhost:8080/account/login?email=${email}&password=${password}`;
-    // if (email && password) {
-    //   fetch(url).then(async (response) => {
-    //     if (!response.ok) {
-    //       alert("Login Failed! Please check your Email and Password Again!");
-
-    //       return;
-    //     }
-
-    //     try {
-    //       const response = await axios.get(`http://localhost:8080/account/getByEmail/${email}`);
-    //       const userData = response.data;
-    //       setSessionData(userData);
-    //       console.log(userData.username);
-    //       console.log(sessionData);
-    //       // Redirect user to dashboard or perform other actions after successful login
-    //     } catch (error) {
-    //       console.error('Error logging in:', error);
-    //     }
-
-    //     alert("Login Successfully!");
-
-
-
-    //     navigate("/");
-
-    //     console.log(response.json);
-
-    //     return response.json();
-    //   });
-
-      setPassword("");
-      setEmail("");
+    try {
+      console.log(`http://localhost:8080/account/login/${email}/${encodeURIComponent(password)}`);
+      const response = await axios.get(`http://localhost:8080/account/login/${email}/${encodeURIComponent(password)}`);
     
+        const userData = response.data;
+        login(userData);
+        alert("Login Successfully!");
+        navigate("/");
+     
+    } catch (error) {
+      alert("Login Failed! Please check your Email and Password Again!");
+    }
   };
+
   return (
     <div className="wrapper">
       <form action="" autoComplete="false" onSubmit={handleLogin}>

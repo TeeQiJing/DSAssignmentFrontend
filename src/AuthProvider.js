@@ -21,17 +21,11 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const login = async (email) => {
-    try {
-      const response = await axios.get(`http://localhost:8080/account/getByEmail/${email}`);
-      const userData = response.data;
-      setUserData(userData);
-      setIsLoggedIn(true);
-      localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('userData', JSON.stringify(userData));
-    } catch (error) {
-      console.error('Error logging in:', error);
-    }
+  const login = (userData) => {
+    setIsLoggedIn(true);
+    setUserData(userData);
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('userData', JSON.stringify(userData));
   };
 
   const logout = () => {

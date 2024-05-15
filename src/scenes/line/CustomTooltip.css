@@ -1,0 +1,13 @@
+.tooltip-container {
+    background: white;
+    padding: 10px;
+    border: 1px solid black;
+  }
+  
+  .tooltip-point {
+    margin-bottom: 5px;
+  }
+  
+  .tooltip-point p {
+    margin: 0;
+  }

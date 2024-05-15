@@ -10,7 +10,9 @@ import Transfer from "./scenes/transaction/Transfer";
 import AddContact from "./scenes/transaction/AddContact";
 // import { SessionProvider, useSession } from "./SessionContext";
 import { useAuth } from "./AuthProvider";
-import TransactionHisTest from "./scenes/transactionHistory/TransactionHistory copy";
+import PieChart from "./scenes/pie/PieChart";
+import LineChart from "./scenes/line/LineChart";
+
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -33,14 +35,16 @@ function App() {
                 <Routes>
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/transaction" element={<Transaction />} />
-                  <Route path="/transaction/transfer/" element={<Transfer />} />
+                  <Route path="/transaction/transfer" element={<Transfer />} />
+                  <Route path="/piechart" element={<PieChart />} />
+                  <Route path="/linechart" element={<LineChart />} />
                   <Route
                     path="/transaction/addContact"
                     element={<AddContact />}
                   />
                   <Route
                     path="/transactionHistory"
-                    element={<TransactionHisTest />}
+                    element={<TransactionHistory />}
                   />
                   {/* Other routes */}
                 </Routes>
