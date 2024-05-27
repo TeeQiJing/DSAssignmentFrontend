@@ -20,8 +20,12 @@ const Topbar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout();
-    navigate('/login');
+    if(window.confirm("Do You Wish to Log Out Now?")){
+      logout();
+      navigate('/login');
+    }
+
+    
 
   };
 

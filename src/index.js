@@ -16,6 +16,7 @@ import GetImg from "./GetImg";
 import { Login } from "@mui/icons-material";
 // import { SessionProvider } from "./SessionContext";
 import { AuthProvider } from "./AuthProvider";
+import AdminRegisterForm from "./scenes/adminsignup/AdminRegisterForm";
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -29,6 +30,8 @@ root.render(
     <Routes>
         <Route path="*" element={<App />} />
         <Route path="/login" element={<LoginForm />} />
+        <Route path="/adminsignup" element={< AdminRegisterForm/>} />
+
         
           <Route path="/register/*" element={<Parent />} />
           <Route path="/image/" element={<GetImg />} />

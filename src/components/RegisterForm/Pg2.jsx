@@ -5,41 +5,45 @@ import axios from "axios";
 import { useFileData } from "../../FileDataContext";
 
 const Pg2 = ({ accountData = {}, setAccountData }) => {
-  const steps = ["Personal Details", "Acccount Details", "Card Details"];
-
+  const steps = ["Personal Details", "Account Details", "Card Details"];
   const { setFileData } = useFileData();
-  // const [avatar, setAvatar] = useState(null);
+  const [currencies, setCurrencies] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    axios.get("http://localhost:8080/currencyConversion/unique-coins")
+      .then(response => {
+        setCurrencies(response.data);
+      })
+      .catch(error => {
+        console.error("There was an error fetching the currencies!", error);
+      });
+  }, []);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    // if (file) {
-    //   const reader = new FileReader();
-    //   reader.onload = () => {
-    //     setAccountData({ ...accountData, avatar: reader.result });
-    //   };
-    //   reader.readAsDataURL(file);
-    // }
-    // setAccountData({ ...accountData, file: file });
-    // // setFile(file);
-    // // setFile(e.target.files[0]);
     if(file.size > 500*1024){
       alert('File size exceeds 500kb. Please choose a smaller file.');
       return;
-    }else if (file) {
+    } else if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setAccountData({ ...accountData, avatar: reader.result, file: file }); // Include file data in accountData
+        setAccountData({ ...accountData, avatar: reader.result, file: file });
         setFileData(file);
       };
       reader.readAsDataURL(file);
-    }else{alert('Please choose a file!'); return;}
+    } else {
+      alert('Please choose a file!');
+      return;
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(accountData.file);
-    if(!accountData.file)  {alert('Please choose a file!'); return;}
+    if(!accountData.file) {
+      alert('Please choose a file!');
+      return;
+    }
     navigate("/register/page3",  { state: { file: accountData.file } });
   };
 
@@ -49,7 +53,7 @@ const Pg2 = ({ accountData = {}, setAccountData }) => {
         <h1>Register</h1>
         <div className="stepper">
           <div className="line"></div>
-          {steps?.map((step, i) => (
+          {steps.map((step, i) => (
             <div
               key={i}
               className={`step ${
@@ -70,7 +74,7 @@ const Pg2 = ({ accountData = {}, setAccountData }) => {
         <div className="input-box2">
           <input
             type="text"
-            maxlength="20"
+            maxLength="20"
             placeholder="Enter your account number"
             value={accountData.accountNumber || ""}
             onChange={(e) =>
@@ -84,7 +88,7 @@ const Pg2 = ({ accountData = {}, setAccountData }) => {
         <div className="input-box2">
           <input
             type="password"
-            minlength="8"
+            minLength="8"
             placeholder="Enter your password"
             value={accountData.password || ""}
             onChange={(e) =>
@@ -100,12 +104,12 @@ const Pg2 = ({ accountData = {}, setAccountData }) => {
             type="password"
             id="securePhrase"
             name="securePhrase"
-            minlength="8"
+            minLength="8"
             value={accountData.securePhrase || ""}
             onChange={(e) =>
               setAccountData({ ...accountData, securePhrase: e.target.value })
             }
-            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+            // pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
             placeholder="Enter your secure phrase"
             required
             title="Your secure phrase must contain at least 8 characters, including uppercase and lowercase letters, numbers, and special characters."
@@ -113,13 +117,12 @@ const Pg2 = ({ accountData = {}, setAccountData }) => {
         </div>
 
         <p className="pp2">Balance</p>
-        <div className="input-box2">
+        <div className="input-box2 balance-box">
           <input
-            type="number"
+          autoComplete="off"
+            type="text"
             id="balance"
             name="balance"
-            min="0"
-            step="0.01"
             placeholder="Enter your balance"
             value={accountData.balance || ""}
             onChange={(e) =>
@@ -127,6 +130,19 @@ const Pg2 = ({ accountData = {}, setAccountData }) => {
             }
             required
           />
+          <select 
+            value={accountData.currency || ""}
+            onChange={(e) =>
+              setAccountData({ ...accountData, currency: e.target.value })
+            }
+            required
+            className="currency-select"
+          >
+            <option value="" disabled>Currency</option>
+            {currencies.map((currency, index) => (
+              <option key={index} value={currency}>{currency}</option>
+            ))}
+          </select>
         </div>
 
         <div className="avatar-box">
@@ -147,17 +163,10 @@ const Pg2 = ({ accountData = {}, setAccountData }) => {
             </label>
             <input
               className="form-control"
-              // name="image"
-              // aria-describedby="inputGroupFileAddon04"
-              // aria-label="Upload"
               type="file"
               id="avatar-input"
-              // name="avatarImg"
-              // accept="image/*"
               accept="image/*"
-              // value={accountData.avatar || null}
               onChange={handleFileChange}
-              // required
             />
           </div>
         </div>
@@ -175,9 +184,6 @@ const Pg2 = ({ accountData = {}, setAccountData }) => {
         </button>
       </form>
     </div>
-
- 
-    
   );
 };
 

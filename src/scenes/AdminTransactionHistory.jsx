@@ -1,70 +1,31 @@
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useTheme, FormControl, InputLabel, Select, MenuItem, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { tokens } from "../../theme";
-// import { mockDataTeam } from "../../data/mockData";
-import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
-import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
-import Header from "../../components/Header";
-import { useAuth } from "../../AuthProvider";
-import { useState } from "react";
-import { useEffect } from "react";
+import { tokens } from "../theme";
+import Header from "../components/Header";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import { useAuth } from "../AuthProvider";
 
-const TransactionHistory = () => {
+const AdminTransactionHistory = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { userData } = useAuth();
   const [transactionData, setTransactionData] = useState([]);
+  const { userData } = useAuth();
+  const [selectedCurrency, setSelectedCurrency] = useState("receiver"); // default to receiver currency
 
-  useEffect(() => {
-    const fetchTransactionsHistory = async () => {
-      try {
-        // Make API request to fetch transactions history
-        const response = await axios.get(`http://localhost:8080/transaction/getTransactionHistory/${userData.account_number}`);
-        const transactions = response.data;
-
-        // Extract unique user account numbers from transactions
-        const uniqueAccountNumbers = [...new Set(transactions.flatMap(transaction => [transaction.sender_account_number, transaction.receiver_account_number]))];
-
-        // Fetch user data for all unique account numbers in parallel
-        const userResponses = await Promise.all(uniqueAccountNumbers.map(accountNumber => axios.get(`http://localhost:8080/account/${accountNumber}`)));
-        const userDataMap = Object.fromEntries(userResponses.map(response => [response.data.account_number, response.data]));
-
-        // Format the transaction data
-        const formattedTransactionData = await Promise.all(transactions.map(async transaction => {
-          // Fetch receiver's user data including currency
-          const receiverAccountResponse = await axios.get(`http://localhost:8080/account/${transaction.receiver_account_number}`);
-          const receiverUserData = receiverAccountResponse.data;
-
-          const convertedAmountResponse = await axios.get(`http://localhost:8080/currencyConversion/conversion/${receiverUserData.currency}/${userData.currency}/${parseFloat(transaction.amount)}`);
-          const convertedAmount = (convertedAmountResponse.data[0]).toFixed(2);
-
-          return {
-            ...transaction,
-            id: transaction.transaction_id, // Rename transaction_id to id
-            sender: `${transaction.sender_account_number} - ${userDataMap[transaction.sender_account_number]?.username || ''}`,
-            receiver: `${transaction.receiver_account_number} - ${userDataMap[transaction.receiver_account_number]?.username || ''}`,
-            amount: convertedAmount,
-            category: transaction.category,
-            reference: transaction.reference,
-            date_of_trans: transaction.date_of_trans,
-            // receiverCurrency: receiverUserData.currency, 
-          };
-        }));
-
-        // Set the formatted transaction data
-        setTransactionData(formattedTransactionData);
-      } catch (error) {
-        console.error("Error fetching transactions:", error);
-      }
-    };
-
-    fetchTransactionsHistory();
-  }, [userData.account_number]);
+  const fetchConvertedAmount = async (amount, fromCurrency, toCurrency) => {
+    if (fromCurrency === toCurrency) return amount;
+    try {
+      const response = await axios.get(`http://localhost:8080/currencyConversion/conversion/${fromCurrency}/${toCurrency}/${parseFloat(amount)}`);
+      return (response.data[0]).toFixed(2);
+    } catch (error) {
+      console.error("Error converting amount:", error);
+      return amount;
+    }
+  };
 
   const handleSendReceipt = async (transaction) => {
-    if(window.confirm("Send E-Receipt for Transaction Id of " + transaction.id + "?")){
+    if(window.confirm("Send E-Receipt for Transaction Id of " + transaction.id + " to "+ userData.email+"?")){
       // console.log("Send receipt for transaction:", transaction);
  
       const transactionData = (await axios.get(`http://localhost:8080/transaction/getSpecificTransactionHistory/${transaction.id}`)).data;
@@ -117,6 +78,48 @@ const TransactionHistory = () => {
     // Implement your logic to send receipt here
   };
 
+  useEffect(() => {
+    const fetchTransactionsHistory = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/transaction/getAllTransactionHistory`);
+        const transactions = response.data;
+
+        const uniqueAccountNumbers = [...new Set(transactions.flatMap(transaction => [transaction.sender_account_number, transaction.receiver_account_number]))];
+        const userResponses = await Promise.all(uniqueAccountNumbers.map(accountNumber => axios.get(`http://localhost:8080/account/${accountNumber}`)));
+        const userDataMap = Object.fromEntries(userResponses.map(response => [response.data.account_number, response.data]));
+
+        const formattedTransactionData = await Promise.all(transactions.map(async transaction => {
+          const receiverUserData = userDataMap[transaction.receiver_account_number];
+          const senderUserData = userDataMap[transaction.sender_account_number];
+
+          const fromCurrency = receiverUserData.currency;
+          const toCurrency = selectedCurrency === "receiver" ? receiverUserData.currency : senderUserData.currency;
+          const convertedAmount = await fetchConvertedAmount(transaction.amount, fromCurrency, toCurrency);
+
+          return {
+            ...transaction,
+            id: transaction.transaction_id,
+            sender: `${transaction.sender_account_number} - ${userDataMap[transaction.sender_account_number]?.username || ''}`,
+            receiver: `${transaction.receiver_account_number} - ${userDataMap[transaction.receiver_account_number]?.username || ''}`,
+            amount: (parseFloat(convertedAmount).toFixed(2)).toString() +" " +toCurrency,
+            category: transaction.category,
+            reference: transaction.reference,
+          };
+        }));
+
+        setTransactionData(formattedTransactionData);
+      } catch (error) {
+        console.error("Error fetching transactions:", error);
+      }
+    };
+
+    fetchTransactionsHistory();
+  }, [selectedCurrency]);
+
+  const handleCurrencyChange = (event) => {
+    setSelectedCurrency(event.target.value);
+  };
+
   const columns = [
     { field: "id", headerName: "ID" },
     {
@@ -130,22 +133,22 @@ const TransactionHistory = () => {
       headerName: "Receiver",
       flex: 1,
       cellClassName: "name-column--cell",
-      // type: "number",
       headerAlign: "left",
       align: "left",
     },
     {
       field: "amount",
-      headerName: "Amount (" + userData.currency + "s)",
+      headerName: `Amount (${selectedCurrency === "receiver" ? "Receiver's Currency" : "Sender's Currency"})`,
       type: "number",
-      flex: 1,
+      flex: 1.8,
       headerAlign: "left",
       align: "left",
+      sortable: false
     },
     {
       field: "reference",
       headerName: "Reference",
-      flex: 2,
+      flex: 1.5,
       headerAlign: "left",
       align: "left",
     },
@@ -159,7 +162,7 @@ const TransactionHistory = () => {
     {
       field: "date_of_trans",
       headerName: "Date",
-      flex: 1,
+      flex: 1.5,
       headerAlign: "left",
       align: "left",
     },
@@ -184,9 +187,22 @@ const TransactionHistory = () => {
   return (
     <Box m="20px">
       <Header title="TRANSACTION HISTORY" subtitle="Managing Your Transactions" />
+      <FormControl variant="outlined" fullWidth>
+        <InputLabel id="currency-select-label">Currency</InputLabel>
+        <Select
+          labelId="currency-select-label"
+          id="currency-select"
+          value={selectedCurrency}
+          onChange={handleCurrencyChange}
+          label="Currency"
+        >
+          <MenuItem value="receiver">Receiver Currency</MenuItem>
+          <MenuItem value="sender">Sender Currency</MenuItem>
+        </Select>
+      </FormControl>
       <Box
-        m="40px 0 0 0"
-        height="73vh"
+        m="20px 0 0 0"
+        height="65vh"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
@@ -219,4 +235,4 @@ const TransactionHistory = () => {
   );
 };
 
-export default TransactionHistory;
+export default AdminTransactionHistory;

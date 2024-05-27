@@ -91,6 +91,7 @@ const Pg3 = ({
       email: userData.email,
       secure_phrase: accountData.securePhrase,
       balance: accountData.balance,
+      currency: accountData.currency,
       // user_avatar: {
       //   image_path: null // You can modify this to include the file/avatar data if needed
       // },

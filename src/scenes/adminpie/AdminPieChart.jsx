@@ -1,16 +1,16 @@
 import { Box } from "@mui/material";
 import Header from "../../components/Header";
-import Pie from "./Pie";
+import AdminPie from "./AdminPie";
 
-const PieChart = () => {
+const AdminPieChart = () => {
   return (
     <Box m="20px">
       <Header title="Pie Chart" subtitle="Your Daily Expenses" />
       <Box height="75vh">
-        <Pie />
+        <AdminPie />
       </Box>
     </Box>
   );
 };
 
-export default PieChart;
+export default AdminPieChart;

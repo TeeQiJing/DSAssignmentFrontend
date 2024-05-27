@@ -15,19 +15,31 @@ const LoginForm = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      console.log(`http://localhost:8080/account/login/${email}/${encodeURIComponent(password)}`);
-      const response = await axios.get(`http://localhost:8080/account/login/${email}/${encodeURIComponent(password)}`);
-    
-        const userData = response.data;
+      let userData = null;
+  
+      try {
+        // Attempt to login as a regular user
+        const response = await axios.get(`http://localhost:8080/account/login/${email}/${encodeURIComponent(password)}`);
+        userData = response.data;
+      } catch (error) {
+        // If regular user login fails, attempt to login as an admin
+        const adminResponse = await axios.get(`http://localhost:8080/account/loginadmin/${email}/${encodeURIComponent(password)}`);
+        userData = adminResponse.data;
+      }
+  
+      if (userData) {
         login(userData);
         alert("Login Successfully!");
-        navigate("/");
-     
+       
+        navigate(userData.account_type !== "Goblin" ?  "/dashboard" : "/admindashboard");
+      } else {
+        throw new Error("No user found");
+      }
+  
     } catch (error) {
       alert("Login Failed! Please check your Email and Password Again!");
     }
   };
-
   return (
     <div className="wrapper">
       <form action="" autoComplete="false" onSubmit={handleLogin}>

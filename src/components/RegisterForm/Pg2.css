@@ -205,3 +205,65 @@
     padding: 0 30px;
 
 }
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Styling for balance box */
+.balance-box {
+    width: 80%;
+    height: 50px;
+  /* position: relative;
+  display: flex;
+  align-items: center; */
+
+}
+
+.balance-box input[type=text] {
+  /* width: calc(100% - 80px); */
+  padding-right: 80px; /* Space for the select box */
+}
+
+.balance-box .currency-select {
+    position: absolute;
+    right: 332px;
+    top: -3px;
+    bottom: 0px;
+    border: none;
+    background: transparent;
+    width: 80px;
+    height: 100%;
+    padding: 0 5px;
+    font-size: 1em;
+    cursor: pointer;
+
+    appearance: none;
+    color: #e0e0e0;
+    text-align: center;
+}
+
+/* Remove default border and outline */
+.balance-box .currency-select:focus {
+    outline: none;
+    border: none;
+  }
+  
+  /* Custom styling for the select dropdown to blend with the input */
+  .balance-box .currency-select option {
+    background: rgb(69, 54, 54); /* Or the background color of your input */
+    color: #fff; /* Or the text color of your input */
+    border: none;
+  }
+
+  .balance-box .currency-select::before {
+    content: "|";
+    margin-right: 5px;
+    color: #ffffff; /* Match the text color of your input */
+  }

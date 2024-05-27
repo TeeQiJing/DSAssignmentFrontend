@@ -10,7 +10,7 @@ import './CustomTooltip.css';
 
 // import { Tooltip } from "@nivo/tooltip";
 
-const Pie = () => {
+const DashboardPie = () => {
   const theme = useTheme();
   const {userData}= useAuth();
   const colors = tokens(theme.palette.mode);
@@ -26,60 +26,54 @@ const Pie = () => {
 
 
 
-useEffect(() => {
-  const fetchPieData = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8080/transaction/getPie/${userData.account_number}`);
-      const transactions = response.data;
-      let food = 0;
-      let edu = 0;
-      let game = 0;
-      let business = 0;
-      let other = 0;
-
-      for (const transaction of transactions) {
-        const { amount, receiver, category } = transaction;
-        const receiverCurrencyType = receiver.currency;
-        // const receiverCurrencyType = receiver.currency;
-        
-        const conversionResponse = await axios.get(
-          `http://localhost:8080/currencyConversion/conversion/${receiverCurrencyType}/${userData.currency}/${amount}`
-        );
-        const [convertedValue] = conversionResponse.data;
-
-        switch (category) {
-          case 'Food':
-            food += convertedValue;
-            break;
-          case 'Education':
-            edu += convertedValue;
-            break;
-          case 'Game':
-            game += convertedValue;
-            break;
-          case 'Business':
-            business += convertedValue;
-            break;
-          case 'Others':
-            other += convertedValue;
-            break;
-          default:
-            break;
+  useEffect(() => {
+    const fetchPieData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/transaction/getPie/${userData.account_number}`);
+        const transactions = response.data;
+  
+        let foodCount = 0;
+        let eduCount = 0;
+        let gameCount = 0;
+        let businessCount = 0;
+        let otherCount = 0;
+  
+        for (const transaction of transactions) {
+          const { category } = transaction;
+  
+          switch (category) {
+            case 'Food':
+              foodCount++;
+              break;
+            case 'Education':
+              eduCount++;
+              break;
+            case 'Game':
+              gameCount++;
+              break;
+            case 'Business':
+              businessCount++;
+              break;
+            case 'Others':
+              otherCount++;
+              break;
+            default:
+              break;
+          }
         }
+  
+        setFoodValue(foodCount);
+        setEduValue(eduCount);
+        setGameValue(gameCount);
+        setBusinessValue(businessCount);
+        setOtherValue(otherCount);
+      } catch (error) {
+        console.error("Error fetching transactions:", error);
       }
-
-      setFoodValue(food);
-      setEduValue(edu);
-      setGameValue(game);
-      setBusinessValue(business);
-      setOtherValue(other);
-    } catch (error) {
-      console.error("Error fetching transactions:", error);
-    }
-  };
-
-  fetchPieData();
-}, [userData.account_number]);
+    };
+  
+    fetchPieData();
+  }, [userData.account_number]);
 
   const pieData = [{
     id: "Food",
@@ -119,7 +113,7 @@ const CustomTooltip = ({ datum }) => {
     <div className="custom-tooltip">
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <div style={{ width: '10px', height: '10px', backgroundColor: datum.color, marginRight: '5px' }}></div>
-        <p>{datum.label}: {parseFloat(datum.value).toFixed(2)} {userData.currency}s</p>
+        <p>{datum.label}: {datum.value} Transaction(s)</p>
       </div>
       <p>({(datum.value / pieData.reduce((acc, d) => acc + d.value, 0) * 100).toFixed(2)}%)</p>
     </div>
@@ -127,6 +121,7 @@ const CustomTooltip = ({ datum }) => {
 };
 
   return (
+    <div style={{ height: '85%', width: '100%' }}>
     <ResponsivePie
       data={pieData}
       // tooltip={CustomTooltip}
@@ -238,7 +233,8 @@ const CustomTooltip = ({ datum }) => {
         },
       ]}
     />
+    </div>
   );
 };
 
-export default Pie;
+export default DashboardPie;

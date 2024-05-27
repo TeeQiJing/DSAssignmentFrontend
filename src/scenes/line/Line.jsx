@@ -45,8 +45,8 @@ const Line = ({ isCustomLineColors = false, isDashboard = false }) => {
     // console.log(formattedinitialDate);
     // Add the initial point
     data.push({
-      x: userData.register_date ? userData.register_date : null, // Convert registration date to milliseconds
-      y: userData.initial_balance // Set initial balance
+      x: userData.register_date ? userData.register_date: null, // Convert registration date to milliseconds
+      y: parseFloat(userData.initial_balance).toFixed(2) // Set initial balance
     });
   
     // Process each transaction and update the balance
@@ -62,11 +62,17 @@ const Line = ({ isCustomLineColors = false, isDashboard = false }) => {
     //   const date = transaction.date_of_trans ? new Date(transaction.date_of_trans) : null;
     //   const formattedDate = date ? `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}` : null;
 
-    const date = transaction.date_of_trans ? transaction.date_of_trans : null;
+    // const dateTimestamp = transaction.date_of_trans ? new Date(transaction.date_of_trans).getTime() : null;
+    // const formattedDate = dateTimestamp ? formatDate(dateTimestamp) : null;
+
+    // const dateTimestamp = transaction.date_of_trans ? new Date(transaction.date_of_trans).getTime() : null;
+
+    const date = transaction.date_of_trans ? transaction.date_of_trans: null;
+   
     //   console.log(formattedDate);
       data.push({
         x: date, // Format date as "DD-MM-YYYY"
-        y: balance
+        y: parseFloat(balance).toFixed(2)
       });
     });
   
@@ -74,15 +80,17 @@ const Line = ({ isCustomLineColors = false, isDashboard = false }) => {
 };
 
 
-// const CustomTooltip = ({ point }) => {
-//     // `point` contains information about the hovered data point
-//     return (
-//       <div style={{ background: 'red', padding: '10px', border: '1px solid black', color: 'black' }}>
-//         <p>Date: {point.data.x}</p>
-//         <p>Balance: {point.data.y}</p>
-//       </div>
-//     );
-//   };
+const CustomTooltip = ({ point  }) => {
+  return (
+    <div className="custom-tooltip">
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{ width: '10px', height: '10px', backgroundColor: point.color, marginRight: '5px' }}></div>
+        <p>{point.data.xFormatted}</p>
+      </div>
+      <p style={{textAlign: 'center'}}> {point.data.yFormatted} {userData.currency}s</p>
+    </div>
+  );
+};
   
 console.log(processTransactionData);
   
@@ -99,90 +107,93 @@ const formattedData = [
   
   return (
     <ResponsiveLine
-  data={formattedData}
-  // sliceTooltip={({ slice }) => (
-  //   <CustomTooltip point={slice.points[0]} />
-  // )}
-  theme={{
-    axis: {
-      domain: {
-        line: {
-          stroke: colors.grey[100],
+      data={formattedData}
+      theme={{
+        axis: {
+          domain: {
+            line: {
+              stroke: colors.grey[100],
+            },
+          },
+          legend: {
+            text: {
+              fill: colors.grey[100],
+            },
+          },
+          ticks: {
+            line: {
+              stroke: colors.grey[100],
+              strokeWidth: 1,
+            },
+            text: {
+              fill: colors.grey[100],
+            },
+          },
         },
-      },
-      legend: {
-        text: {
-          fill: colors.grey[100],
+        legends: {
+          text: {
+            fill: colors.grey[100],
+          },
         },
-      },
-      ticks: {
-        line: {
-          stroke: colors.grey[100],
-          strokeWidth: 1,
+        tooltip: {
+          container: {
+            color: colors.primary[500],
+          },
         },
-        text: {
-          fill: colors.grey[100],
-        },
-      },
-    },
-    legends: {
-      text: {
-        fill: colors.grey[100],
-      },
-    },
-    tooltip: {
-      container: {
-        
-        color: colors.primary[500],
-      },
-    },
-  }}
+      }}
+      margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+      xScale={{
+        type: "point",
+        format: "%Y-%m-%d", // Specify date format
+        tickValues: "every 1 day", // Show every tick for each day
+      }}
+    
+      yScale={{
+        type: "linear",
+        min: "auto",
+        max: "auto",
+        stacked: true,
+        reverse: false,
+      }}
+      curve="monotoneX"
+      axisBottom={{
+        legend: "Date",
+        legendOffset: -15,
+        legendPosition: "middle",
+        tickSize: 0, // Hide tick marks
+        tickPadding: 12, // Add padding between ticks and axis
+      }}
 
-  
-  margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-  xScale={{ type: "point" }}
-  yScale={{
-    type: "linear",
-    min: "auto",
-    max: "auto",
-    stacked: true,
-    reverse: false,
-  }}
-  curve="catmullRom"
-  axisBottom={{
-    // Axis bottom configuration
-  }}
-  axisLeft={{
-    // Axis left configuration
-  }}
-  // enableArea={true}  // Enable area
-  // areaOpacity={0.2}  // Set area opacity
-  // areaBaselineValue={-20}  // Set area baseline value
-  enableGridX={false} // Disable grid on X axis
-  enableGridY={false} // Disable grid on Y axis
-  isInteractive={true} // Enable interactivity
-//   enableSlices="x" // Enable slices for X axis
-  enablePoints={true} // Enable data points
-  useMesh={true} // Use mesh for rendering
-  animate={true} // Enable animation
-  motionStiffness={90} // Animation stiffness
-  motionDamping={15} // Animation damping
-  layers={[
-    "grid",
-    "markers",
-    "axes",
-    "areas", // Include "areas" layer for area chart
-    "crosshair",
-    "lines",
-    "points",
-    "slices",
-    "mesh",
-    "legends",
-  ]}
-/>
 
+      axisLeft={{
+        legend: "Balance (" + userData.currency + "s)",
+        legendOffset: 15,
+        legendPosition: "middle"
+      }}
+      enableGridX={false}
+      enableGridY={false}
+      isInteractive={true}
+      enablePoints={true}
+      useMesh={true}
+      animate={true}
+      motionStiffness={90}
+      motionDamping={15}
+      layers={[
+        "grid",
+        "markers",
+        "axes",
+        "areas",
+        "crosshair",
+        "lines",
+        "points",
+        "slices",
+        "mesh",
+        "legends",
+      ]}
+      tooltip={CustomTooltip}
+    />
   );
-  
 };
+
 
 export default Line;

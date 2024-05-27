@@ -44,23 +44,31 @@ const AddContact = ({ onFinish }) => {
     // );
 
     
-    axios.post(`http://localhost:8080/ContactList/${userData.username}/add`, contactList)
-  .then(response => {
-    // Handle successful response
-    console.log(response.data); // You can access response data here if needed
-    console.log("Successfully Add")
-    navigate("/transaction/transfer",  { state: { accountNumber } })
-  })
-  .catch(error => {
-    // Handle errors
-    if (error.response.status === 502 ) {
-      alert("The User is already Exist in Your Contact List");
-    } else {
-      // Handle other errors
-      alert("The User is not yet Registered");
-      // You can show a generic error message or handle it as per your requirement
-    }
-  });
+    axios.post(`http://localhost:8080/ContactList/${userData.username}/${userData.account_number}/${userData.mobile}/add`, contactList)
+    .then(response => {
+      // Handle successful response
+      console.log(response.data); // You can access response data here if needed
+      console.log("Successfully Add");
+      navigate("/transaction/transfer", { state: { accountNumber } });
+    })
+    .catch(error => {
+      // Handle errors
+      if (error.response && error.response.data) {
+        const errorMessage = error.response.data;
+  
+        if (errorMessage === "Cannot Add Yourself In Contact List!" || accountNumber===userData.account_number || phoneNumber === userData.mobile) {
+          alert("Cannot Add Yourself In Contact List!");
+        } else if (errorMessage === "This Account is Already in Your Contact List, Please Try Another Account") {
+          alert("This Account is Already in Your Contact List, Please Try Another Account!");
+        } else {
+          // Handle other unexpected error messages
+          alert("This User is Not Yet Registered. Please Try Another Account!");
+        }
+      } else {
+        // Handle cases where there is no response or error response is not as expected
+        alert("An unexpected error occurred. Please try again later.");
+      }
+    });
 
     
     // Redirect to Transfer.jsx after adding the contact
@@ -79,6 +87,7 @@ const AddContact = ({ onFinish }) => {
             value={nickName}
             onChange={(e) => setNickName(e.target.value)}
             variant="outlined"
+            autoComplete="off"
             fullWidth
           />
           <TextField className="PhoneNumField"
@@ -87,6 +96,7 @@ const AddContact = ({ onFinish }) => {
             onChange={(e) => setPhoneNumber(e.target.value)}
             variant="outlined"
             fullWidth
+            autoComplete="off"
           />
           <TextField className="AccNumField"
             label="Account Number"
@@ -94,6 +104,7 @@ const AddContact = ({ onFinish }) => {
             onChange={(e) => setAccountNumber(e.target.value)}
             variant="outlined"
             fullWidth
+            autoComplete="off"
           />
           <Box mt={2} className="ButtonFinish">
 

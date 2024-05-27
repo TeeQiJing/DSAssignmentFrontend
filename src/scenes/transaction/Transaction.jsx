@@ -80,6 +80,7 @@ const Transaction = () => {
       <Box mt={2}>
         <TextField
           fullWidth
+          autoComplete="off"
           label="Enter Account Number, Nickname, or Phone Number"
           variant="outlined"
           value={searchValue}

@@ -19,6 +19,7 @@ function Parent() {
     balance: 0,
     file: null,
     avatar: null,
+    currency: ""
   });
   const [cardData, setCardData] = useState({
     cardNum: "",

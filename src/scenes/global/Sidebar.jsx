@@ -24,7 +24,10 @@ import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 // import { useSession } from "../../SessionContext";
 import { useAuth } from "../../AuthProvider";
 import GetUserAvatar from "../../GetUserAvatar";
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
+import gringottsLogo from '../../components/Assets/gringotts_logo.jpg';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -59,6 +62,7 @@ const Sidebar = () => {
   // setUsername(sessionData.username);
 
   return (
+
     <Box
       sx={{
         "& .pro-sidebar-inner": {
@@ -79,7 +83,166 @@ const Sidebar = () => {
       }}
     >
       <ProSidebar collapsed={isCollapsed}>
-        <Menu iconShape="square">
+
+        {userData.account_type !== "Goblin" ? (
+           <Menu iconShape="square">
+           {/* LOGO AND MENU ICON */}
+           <MenuItem
+             onClick={() => setIsCollapsed(!isCollapsed)}
+             icon={isCollapsed ? <MenuIcon /> : undefined}
+             style={{
+               margin: "10px 0 20px 0",
+               color: colors.grey[100],
+             }}
+           >
+             {!isCollapsed && (
+               <Box
+                 display="flex"
+                 justifyContent="space-between"
+                 alignItems="center"
+                 ml="15px"
+               >
+                 <Typography variant="h3" color={colors.grey[100]}>
+                 Magical User
+                 </Typography>
+                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
+                   <MenuIcon />
+                 </IconButton>
+               </Box>
+             )}
+           </MenuItem>
+ 
+           {!isCollapsed && (
+             <Box mb="25px">
+               <div className="avatar" style={{ marginLeft: "67px" }}>
+               {/* {userData.account_type === "Goblin" ? (
+               <img src={gringottsLogo} alt="Goblin Avatar"/>
+               ) : ( */}
+                 <GetUserAvatar accountNumber={userData.account_number} />
+              
+               </div>
+               <Box textAlign="center">
+                 <Typography
+                   variant="h2"
+                   color={colors.grey[100]}
+                   fontWeight="bold"
+                   sx={{ m: "10px 0 0 0" }}
+                 >
+                   {userData.username}
+                 </Typography>
+                 <Typography variant="h5" color={colors.greenAccent[500]}>
+                   {userData.account_type}
+                 </Typography>
+               </Box>
+             </Box>
+           )}
+ 
+           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+             <Item
+               title="Dashboard"
+               to="/dashboard"
+               icon={<HomeIcon />}
+               selected={selected}
+               setSelected={setSelected}
+             />
+ 
+             <Typography
+               variant="h6"
+               color={colors.grey[300]}
+               sx={{ m: "15px 0 5px 20px" }}
+             >
+               To-Do
+             </Typography>
+             <Item
+               title="Make Transaction"
+               to="/transaction"
+               icon={<ImportExportIcon />}
+               selected={selected}
+               setSelected={setSelected}
+             />
+             <Item
+               title="Top Up Balance"
+               to="/topup"
+               icon={<PaidIcon />}
+               selected={selected}
+               setSelected={setSelected}
+             />
+             <Item
+               title="Transcation History"
+               to="/transactionHistory"
+               icon={<ReceiptOutlinedIcon />}
+               selected={selected}
+               setSelected={setSelected}
+             />
+ 
+             <Typography
+               variant="h6"
+               color={colors.grey[300]}
+               sx={{ m: "15px 0 5px 20px" }}
+             >
+               Pages
+             </Typography>
+             <Item
+               title="Profile"
+               to="/form"
+               icon={<PersonOutlinedIcon />}
+               selected={selected}
+               setSelected={setSelected}
+             />
+             {/* <Item
+               title="Calendar"
+               to="/calendar"
+               icon={<CalendarTodayOutlinedIcon />}
+               selected={selected}
+               setSelected={setSelected}
+             />
+             <Item
+               title="FAQ"
+               to="/faq"
+               icon={<HelpOutlineOutlinedIcon />}
+               selected={selected}
+               setSelected={setSelected}
+             /> */}
+ 
+             <Typography
+               variant="h6"
+               color={colors.grey[300]}
+               sx={{ m: "15px 0 5px 20px" }}
+             >
+               Charts
+             </Typography>
+             {/* <Item
+               title="Bar Chart"
+               to="/bar"
+               icon={<BarChartOutlinedIcon />}
+               selected={selected}
+               setSelected={setSelected}
+             /> */}
+             <Item
+               title="Pie Chart"
+               to="/piechart"
+               icon={<PieChartOutlineOutlinedIcon />}
+               selected={selected}
+               setSelected={setSelected}
+             />
+             <Item
+               title="Line Chart"
+               to="/linechart"
+               icon={<TimelineOutlinedIcon />}
+               selected={selected}
+               setSelected={setSelected}
+             />
+             {/* <Item
+               title="Geography Chart"
+               to="/geography"
+               icon={<MapOutlinedIcon />}
+               selected={selected}
+               setSelected={setSelected}
+             /> */}
+           </Box>
+         </Menu>
+        ) : (
+          <Menu iconShape="square">
           {/* LOGO AND MENU ICON */}
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
@@ -97,7 +260,7 @@ const Sidebar = () => {
                 ml="15px"
               >
                 <Typography variant="h3" color={colors.grey[100]}>
-                  Magical User
+                Magical Admin
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuIcon />
@@ -109,7 +272,9 @@ const Sidebar = () => {
           {!isCollapsed && (
             <Box mb="25px">
               <div className="avatar" style={{ marginLeft: "67px" }}>
-                <GetUserAvatar accountNumber={userData.account_number} />
+      
+              <img src={gringottsLogo} alt="Goblin Avatar"/>
+        
               </div>
               <Box textAlign="center">
                 <Typography
@@ -130,7 +295,7 @@ const Sidebar = () => {
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
               title="Dashboard"
-              to="/dashboard"
+              to="/admindashboard"
               icon={<HomeIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -143,29 +308,43 @@ const Sidebar = () => {
             >
               To-Do
             </Typography>
-            <Item
+            {/* <Item
               title="Make Transaction"
               to="/transaction"
               icon={<ImportExportIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
-            <Item
+            /> */}
+            {/* <Item
               title="Top Up Balance"
               to="/topup"
               icon={<PaidIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
             <Item
-              title="Transcation History"
-              to="/transactionHistory"
+              title="Transcations"
+              to="/admintransactions"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
+            <Item
+              title="Accounts"
+              to="/accounts"
+              icon={<PersonOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            /> 
+            <Item
+              title="Currencies"
+              to="/currencies"
+              icon={<CurrencyExchangeIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            /> 
 
-            <Typography
+            {/* <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
@@ -173,13 +352,13 @@ const Sidebar = () => {
               Pages
             </Typography>
             <Item
-              title="Profile"
+              title="Accounts"
               to="/form"
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
-            <Item
+            /> */}
+            {/* <Item
               title="Calendar"
               to="/calendar"
               icon={<CalendarTodayOutlinedIcon />}
@@ -192,7 +371,7 @@ const Sidebar = () => {
               icon={<HelpOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
 
             <Typography
               variant="h6"
@@ -201,36 +380,38 @@ const Sidebar = () => {
             >
               Charts
             </Typography>
-            <Item
+            {/* <Item
               title="Bar Chart"
               to="/bar"
               icon={<BarChartOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
             <Item
               title="Pie Chart"
-              to="/piechart"
+              to="/adminpiechart"
               icon={<PieChartOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Line Chart"
-              to="/linechart"
+              to="/adminlinechart"
               icon={<TimelineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            {/* <Item
               title="Geography Chart"
               to="/geography"
               icon={<MapOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
           </Box>
         </Menu>
+        )}
+       
       </ProSidebar>
     </Box>
   );
