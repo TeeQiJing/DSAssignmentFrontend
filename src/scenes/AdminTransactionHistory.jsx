@@ -186,7 +186,7 @@ const AdminTransactionHistory = () => {
 
   return (
     <Box m="20px">
-      <Header title="TRANSACTION HISTORY" subtitle="Managing Your Transactions" />
+      <Header title="TRANSACTION HISTORY" subtitle="Managing All Transactions" />
       <FormControl variant="outlined" fullWidth>
         <InputLabel id="currency-select-label">Currency</InputLabel>
         <Select

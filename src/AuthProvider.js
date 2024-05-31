@@ -21,11 +21,17 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const login = (userData) => {
+  const login = async (userData) => {
     setIsLoggedIn(true);
     setUserData(userData);
     localStorage.setItem('isLoggedIn', 'true');
     localStorage.setItem('userData', JSON.stringify(userData));
+    try {
+      const response = await axios.get(`http://localhost:8080/account/resetlimit/${userData.account_number}`);
+      console.log(response.data);  // Handle the response as needed
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const logout = () => {

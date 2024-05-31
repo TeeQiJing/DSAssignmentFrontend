@@ -225,7 +225,7 @@ const CustomTooltip = ({ datum }) => {
             {
               on: "hover",
               style: {
-                itemTextColor: "#000",
+                itemTextColor: "#fff",
 
               },
             },

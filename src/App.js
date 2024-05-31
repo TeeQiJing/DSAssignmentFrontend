@@ -17,6 +17,9 @@ import AdminTransactionHistory from "./scenes/AdminTransactionHistory";
 import AdminLineChart from "./scenes/adminline/AdminLineChart";
 import AdminPieChart from "./scenes/adminpie/AdminPieChart";
 import AdminDashboard from "./AdminDashboard/AdminDashboard";
+import Accounts from "./scenes/accounts/Accounts";
+import Currencies from "./scenes/currencies/Currencies";
+import AddCurrencies from "./scenes/currencies/AddCurrencies";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -47,8 +50,9 @@ function App() {
                   <Route path="/admintransactions" element={<AdminTransactionHistory />} />
                   <Route path="/adminlinechart" element={<AdminLineChart />} />
                   <Route path="/adminpiechart" element={<AdminPieChart />} />
-                  {/* <Route path="/currencies" element={<AdminLineChart />} /> */}
-                  {/* <Route path="/accounts" element={<AdminLineChart />} /> */}
+                  <Route path="/currencies" element={<Currencies />} />
+                  <Route path="/addcurrencies" element={<AddCurrencies />} />
+                  <Route path="/accounts" element={<Accounts />} />
 
                   <Route
                     path="/transaction/addContact"
