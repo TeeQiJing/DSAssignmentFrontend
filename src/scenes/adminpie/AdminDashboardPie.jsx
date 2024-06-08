@@ -178,7 +178,7 @@ const AdminDashboardPie = () => {
               {
                 on: "hover",
                 style: {
-                  itemTextColor: "#000",
+                  itemTextColor: "#fff",
                 },
               },
             ],

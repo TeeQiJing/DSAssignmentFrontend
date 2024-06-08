@@ -227,7 +227,7 @@ const AdminPie = () => {
                 {
                   on: "hover",
                   style: {
-                    itemTextColor: "#000",
+                    itemTextColor: "#fff",
     
                   },
                 },

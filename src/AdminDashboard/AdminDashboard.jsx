@@ -79,7 +79,7 @@ const AdminDashboard = () => {
         const response = await axios.get('http://localhost:3000/account/all');
         const users = response.data;
         const totalUsers = users.length;
-        const silverUsers = users.filter(user => user.account_type === 'Silver').length;
+        const silverUsers = users.filter(user => user.account_type === 'Silver Snitch').length;
         const goldenUsers = users.filter(user => user.account_type === 'Golden Galleon').length;
         const platinumUsers = users.filter(user => user.account_type === 'Platinum Patronus').length;
         

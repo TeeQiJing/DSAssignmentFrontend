@@ -36,6 +36,7 @@ const Topbar = () => {
         display="flex"
         backgroundColor={colors.primary[400]}
         borderRadius="3px"
+        visibility= "hidden"
       >
         <InputBase sx={{ ml: 2, flex: 1  }} placeholder="Search" />
         <IconButton type="button" sx={{ p: 1 }}>
@@ -44,12 +45,12 @@ const Topbar = () => {
       </Box>
 
       {/* ICONS */}
-      <Box display="flex">
+      <Box display="flex" >
       
-        <IconButton>
+        <IconButton style={{visibility : 'hidden'}}>
           <NotificationsOutlinedIcon />
         </IconButton>
-        <IconButton>
+        <IconButton style={{visibility : 'hidden'}}>
           <SettingsOutlinedIcon />
         </IconButton>
         <IconButton onClick={handleLogout}>
