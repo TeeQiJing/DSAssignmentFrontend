@@ -1,3 +1,4 @@
+// Import all packages used
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Box, Typography, Button } from '@mui/material';
@@ -13,6 +14,7 @@ import AdminDashboardPie from '../scenes/adminpie/AdminDashboardPie';
 import html2canvas from 'html2canvas';
 
 const AdminDashboard = () => {
+  // Declare all variables 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [transactions, setTransactions] = useState([]);
@@ -26,10 +28,13 @@ const AdminDashboard = () => {
   });
   const dashboardRef = useRef(null);
 
+  // This method Will be called in the beginning
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
+        // Used axios get method and SpringBoot APIs to get recent transaction history
         const response = await axios.get('http://localhost:3000/transaction/getRecentTransactionHistory');
+        // Get 5 latest transaction records and store in variable
         setTransactions(response.data.slice(0, 5));
       } catch (error) {
         console.error('Error fetching transactions:', error);
@@ -39,22 +44,30 @@ const AdminDashboard = () => {
     fetchTransactions();
   }, []);
 
+  // This method Will be called in the beginning
   useEffect(() => {
     const fetchFormattedAmounts = async () => {
       const amounts = {};
       for (const transaction of transactions) {
+        // From every single transactions we fetch, store the fields of amount, sender, receiver, transaction_id
         const { amount, sender, receiver, transaction_id } = transaction;
+
+        // Since the amount field display the value in receiver's currency, we convert it to sender's currency with correspond value
         const convertedAmount = await getConvertedAmount(receiver.currency, sender.currency, amount);
+
+        // Set converted amount
         amounts[transaction_id] = `${convertedAmount} ${sender.currency}s`;
       }
       setFormattedAmounts(amounts);
     };
+
 
     if (transactions.length > 0) {
       fetchFormattedAmounts();
     }
   }, [transactions]);
 
+  // Convert amount method
   const getConvertedAmount = async (receiverCurrency, senderCurrency, amount) => {
     try {
       const response = await axios.get(`http://localhost:3000/currencyConversion/conversion/${receiverCurrency}/${senderCurrency}/${amount}`);
@@ -65,20 +78,28 @@ const AdminDashboard = () => {
     }
   };
 
+  // HTML2CANVAS Screenshot function in dashboard
   const handleDownloadImage = () => {
+    // find element which having ref={dashboardRef}
     html2canvas(dashboardRef.current).then((canvas) => {
       const link = document.createElement('a');
+      // Generate 'dashboard.png'
       link.download = 'dashboard.png';
       link.href = canvas.toDataURL();
       link.click();
     });
   };
+
+  // This method Will be called in the beginning
   useEffect(() => {
     const fetchUsers = async () => {
       try {
+        // Get all account in database by using the SpringBoot APIs
         const response = await axios.get('http://localhost:3000/account/all');
         const users = response.data;
         const totalUsers = users.length;
+
+        // Set amount for 3 different user types
         const silverUsers = users.filter(user => user.account_type === 'Silver Snitch').length;
         const goldenUsers = users.filter(user => user.account_type === 'Golden Galleon').length;
         const platinumUsers = users.filter(user => user.account_type === 'Platinum Patronus').length;
@@ -97,9 +118,11 @@ const AdminDashboard = () => {
     fetchUsers();
   }, []);
 
+  // This method Will be called in the beginning
   useEffect(() => {
     const fetchCurrencies = async () => {
       try {
+        // Get all available currencies 
         const response = await axios.get('http://localhost:3000/currencyConversion/getAllCurrency');
         setCurrencies(response.data);
       } catch (error) {
@@ -110,6 +133,7 @@ const AdminDashboard = () => {
     fetchCurrencies();
   }, []);
 
+  // Method to display / render all recent transaction in a Box (scrollable)
   const renderTransactions = () => {
     return transactions.map((transaction, index) => {
       const { transaction_id, sender, date_of_trans } = transaction;
@@ -124,12 +148,17 @@ const AdminDashboard = () => {
           p="15px"
         >
           <Box>
+            {/* Transaction ID */}
             <Typography color={colors.greenAccent[500]} variant="h5" fontWeight="600">
               {`TRX${transaction_id}`}
             </Typography>
+            {/* Sender Username */}
             <Typography color={colors.grey[100]}>{sender.username}</Typography>
           </Box>
+          {/* Date of Transaction */}
           <Box color={colors.grey[100]}>{date_of_trans}</Box>
+
+          {/* Transaction Amount (in Sender's Currencies) */}
           <Box backgroundColor={colors.greenAccent[600]} p="5px 10px" borderRadius="4px">
             {formattedAmounts[transaction_id] || "Loading..."}
           </Box>
@@ -138,6 +167,7 @@ const AdminDashboard = () => {
     });
   };
 
+  // Method to display / render all available currencies in a Box (scrollable)
   const renderCurrencies = () => {
     return currencies.map((currency, index) => {
       const { sourceCoin, destinationCoin, value } = currency;
@@ -152,6 +182,7 @@ const AdminDashboard = () => {
           p="20px"
         >
           <Box>
+            {/* Source Coin -> Destination Coin */}
             <Typography color={colors.greenAccent[500]} variant="h5" fontWeight="600" letterSpacing="1px">
               {`${sourceCoin} `}
               <span style={{ fontWeight: 'bold', color: colors.grey[200], fontSize: '20px'}}>➜</span>
@@ -159,6 +190,7 @@ const AdminDashboard = () => {
             </Typography>
           </Box>
           {/* <Box color={colors.grey[100]} fontSize="14px" >{`Value: ${value}`}</Box> */}
+          {/* Value */}
           <Box backgroundColor={colors.greenAccent[600]} p="5px 10px" borderRadius="4px">
             Value: {value || "Loading..."}
           </Box>
@@ -180,6 +212,7 @@ const AdminDashboard = () => {
               fontWeight: "bold",
               padding: "10px 20px",
             }}
+            // Click to download report image (html2canvas screenshot)
             onClick={handleDownloadImage}
           >
             <DownloadOutlinedIcon sx={{ mr: "10px" }} />
@@ -203,6 +236,7 @@ const AdminDashboard = () => {
           alignItems="center"
           justifyContent="center"
         >
+          {/* Display Total User */}
           <StatBox
             title={userStats.totalUsers}
             subtitle="Total Users"
@@ -222,6 +256,7 @@ const AdminDashboard = () => {
           alignItems="center"
           justifyContent="center"
         >
+          {/* Display Total Silver User */}
           <StatBox
             title={userStats.silverUsers}
             subtitle="Silver Snitchs"
@@ -241,6 +276,7 @@ const AdminDashboard = () => {
             alignItems="center"
             justifyContent="center"
           >
+            {/* Display Total Golden User */}
             <StatBox
               title={userStats.goldenUsers}
               subtitle="Golden Galleons"
@@ -260,6 +296,7 @@ const AdminDashboard = () => {
             alignItems="center"
             justifyContent="center"
           >
+            {/* Display Total Platinum User */}
             <StatBox
               title={userStats.platinumUsers}
               subtitle="Platinum Patronus"
@@ -293,6 +330,7 @@ const AdminDashboard = () => {
               >
                 Users' Currencies Distribution Chart
               </Typography>
+              {/* Display Users' Currencies Distribution Chart using Pie Chart */}
               <AdminDashboardPie/>
             </Box>
           </Box>
@@ -316,6 +354,7 @@ const AdminDashboard = () => {
                 Recent Transactions
               </Typography>
             </Box>
+            {/* Display 5 recent transactions */}
             {renderTransactions()}
           </Box>
   
@@ -338,6 +377,7 @@ const AdminDashboard = () => {
                 Currency Exchange Rate
               </Typography>
             </Box>
+            {/* Display all available currencies with the conversion rate (value) */}
             {renderCurrencies()}
           </Box>
         </Box>
