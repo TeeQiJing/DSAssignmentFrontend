@@ -15,6 +15,21 @@ const Pg1 = ({ userData = {}, setUserData }) => {
     navigate('/register/page2');
   };
 
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    // Update the state with the new value if it matches the pattern
+    if (/^\d*$/.test(value)) {
+      setUserData({ ...userData, contact: value });
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    // Prevent any keypress that is not a digit
+    if (!/[0-9]/.test(e.key)) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <div className="pg1-wrapper">
       <form onSubmit={handleSubmit} autoComplete="true">
@@ -73,12 +88,15 @@ const Pg1 = ({ userData = {}, setUserData }) => {
         <p className="pp">Contact Number</p>
         <div className="input-box1">
           <input
-            type="tel"
-            placeholder="Exp: 0123456789"
-            value={userData.contact || ''}
-            onChange={(e) => setUserData({ ...userData, contact: e.target.value })}
-            required
-          />
+          type="text"
+          placeholder="Exp: 0123456789"
+          value={userData.contact}
+          onChange={handleInputChange}
+          onKeyPress={handleKeyPress}
+          pattern="\d*"
+          title="Please enter only digits."
+          required
+        />
         </div>
 
         <p className="pp">Address</p>

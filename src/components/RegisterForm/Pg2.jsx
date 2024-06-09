@@ -47,6 +47,8 @@ const Pg2 = ({ accountData = {}, setAccountData }) => {
     navigate("/register/page3",  { state: { file: accountData.file } });
   };
 
+
+
   return (
     <div className="pg2-wrapper">
       <form action="" autoComplete="true" onSubmit={handleSubmit}>
@@ -75,10 +77,21 @@ const Pg2 = ({ accountData = {}, setAccountData }) => {
           <input
             type="text"
             maxLength="20"
+            pattern="\d*"
+            title="Please enter only digits."
             placeholder="Enter your account number"
             value={accountData.accountNumber || ""}
-            onChange={(e) =>
-              setAccountData({ ...accountData, accountNumber: e.target.value })
+            onKeyPress={(e) => {
+              if (!/[0-9]/.test(e.key)) {
+                e.preventDefault();
+              }
+            }}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (/^\d*$/.test(value)) {
+                setAccountData({ ...accountData, accountNumber: value });
+              }
+            }
             }
             required
           />
@@ -91,8 +104,13 @@ const Pg2 = ({ accountData = {}, setAccountData }) => {
             minLength="8"
             placeholder="Enter your password"
             value={accountData.password || ""}
-            onChange={(e) =>
-              setAccountData({ ...accountData, password: e.target.value })
+           
+            onChange={(e) => {
+              const value = e.target.value;
+              
+              setAccountData({ ...accountData, password: value });
+              
+            }
             }
             required
           />
@@ -123,10 +141,21 @@ const Pg2 = ({ accountData = {}, setAccountData }) => {
             type="text"
             id="balance"
             name="balance"
+            pattern="\d*"
+            title="Please enter only digits."
             placeholder="Enter your balance"
             value={accountData.balance || ""}
-            onChange={(e) =>
-              setAccountData({ ...accountData, balance: e.target.value })
+            onKeyPress={(e) => {
+              if (!/[0-9]/.test(e.key)) {
+                e.preventDefault();
+              }
+            }}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (/^\d*$/.test(value)) {
+                setAccountData({ ...accountData, balance: value });
+              }
+            }
             }
             required
           />

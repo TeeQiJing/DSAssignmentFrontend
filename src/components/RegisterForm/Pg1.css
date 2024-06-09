@@ -180,3 +180,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .pg1-wrapper .pp {
   padding: 0 30px;
 }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(100%);
+  cursor: pointer;
+}

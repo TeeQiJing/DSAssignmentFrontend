@@ -128,15 +128,14 @@ transform: translateY(-150px);
 
 .userNotFoundMessage button {
   margin-left: 10px;
-  background-color: white;
+  background-color: black;
   font-family:"Source Sans Pro";
-  color: red;
-  border: 1px solid red; /* Add border for better visibility */
-  transition: background-color 0.3s ease; /* Smooth transition effect */
+  color: white;
+  border: none; 
   
   
 }
 .userNotFoundMessage button:hover {
-  background-color: black; /* Change background color on hover */
+  background-color: rgb(40, 10, 96); /* Change background color on hover */
   color: white; /* Change text color on hover */
 }

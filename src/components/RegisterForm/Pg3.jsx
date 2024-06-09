@@ -244,11 +244,24 @@ const Pg3 = ({
             id="cardNumber"
             name="cardNumber"
             value={cardData.cardNum || ""}
-            onChange={(e) =>
-              setCardData({ ...cardData, cardNum: e.target.value })
+            onKeyPress={(e) => {
+              if (!/[0-9]/.test(e.key)) {
+                e.preventDefault();
+              }
+            }}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (/^\d*$/.test(value)) {
+                setCardData({ ...cardData, cardNum: value });
+              }
             }
-            pattern="[0-9]{13,16}"
-            maxlength="19"
+            }
+            // pattern="[0-9]{16}"
+            pattern="\d*"
+            title="Please enter only digits."
+            
+            maxlength="16"
+            minLength="16"
             placeholder="Enter your card number"
             required
           />
@@ -260,11 +273,23 @@ const Pg3 = ({
             type="password"
             id="cardPin"
             name="cardPin"
-            pattern="[0-9]{6}"
+            pattern="\d*"
+            title="Please enter only digits."
             maxlength="6"
             minLength="6"
             value={cardData.pin || ""}
-            onChange={(e) => setCardData({ ...cardData, pin: e.target.value })}
+            onKeyPress={(e) => {
+              if (!/[0-9]/.test(e.key)) {
+                e.preventDefault();
+              }
+            }}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (/^\d*$/.test(value)) {
+                setCardData({ ...cardData, pin: value });
+              }
+            }
+            }
             placeholder="Enter your card PIN"
             required
           />
@@ -318,10 +343,22 @@ const Pg3 = ({
             type="text"
             id="cvv"
             name="cvv"
-            pattern="[0-9]{3}"
+            pattern="\d*"
             maxlength="3"
+            minLength="3"
             value={cardData.cvv || ""}
-            onChange={(e) => setCardData({ ...cardData, cvv: e.target.value })}
+            onKeyPress={(e) => {
+              if (!/[0-9]/.test(e.key)) {
+                e.preventDefault();
+              }
+            }}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (/^\d*$/.test(value)) {
+                setCardData({ ...cardData, cvv: value });
+              }
+            }
+            }
             placeholder="Enter your CVV"
             required
           />
